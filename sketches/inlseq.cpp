@@ -9,10 +9,29 @@
 #include <boost/mpl/at.hpp>
 #endif
 #include <boost/preprocessor.hpp>
+#include <typeinfo>
 
 #ifndef L
 #define L 20
 #endif
+
+template<
+  typename Seq,
+  typename Add
+> struct next {
+  typedef typename boost::mpl::eval_if<
+      boost::mpl::is_sequence<Add>,
+      boost::mpl::insert_range<
+        Seq,
+        typename boost::mpl::end<Seq>::type,
+        Add
+      >,
+      boost::mpl::push_back<
+        Seq,
+        Add
+      >
+    >::type type;
+};
 
 template<
   BOOST_PP_ENUM_BINARY_PARAMS(
@@ -24,22 +43,11 @@ template<
 struct combined {
   typedef boost::mpl::vector0<> type0;
   #define XNEXT(z,n,t) \
-    typedef typename boost::mpl::eval_if< \
-        boost::mpl::is_sequence<BOOST_PP_CAT(P, n)>, \
-        boost::mpl::insert_range< \
-          BOOST_PP_CAT(type, n), \
-          typename boost::mpl::end< \
-            BOOST_PP_CAT(type, n) \
-          >::type, \
-          BOOST_PP_CAT(P, n) \
-        >, \
-        boost::mpl::push_back< \
-          BOOST_PP_CAT(type, n), \
-          BOOST_PP_CAT(P, n) \
-        > \
-      >::type BOOST_PP_CAT(type, BOOST_PP_INC(n)); \
+    typedef typename next< \
+        BOOST_PP_CAT(type, n), \
+        BOOST_PP_CAT(P, n) \
+      >::type  BOOST_PP_CAT(type, BOOST_PP_INC(n)); \
       /**/
-
   BOOST_PP_REPEAT(L, XNEXT, ~)
   #undef XNEXT
   typedef BOOST_PP_CAT(type, L) type;
