@@ -20,7 +20,21 @@
 #ifndef FRAGMENTS_CONTAINER_TYPE_HPP
 #define FRAGMENTS_CONTAINER_TYPE_HPP
 
+#include <fragments/container/concepts/type_provider.hpp>
+#include <boost/mpl/vector.hpp>
+
 namespace fragments { namespace container {
+
+template<typename T>
+struct type {
+  typedef boost::mpl::vector1<concepts::type_provider> concept;
+
+  template<typename Before, typename After>
+  struct fragment : Before {
+    typedef T value_type;
+  };
+};
+
 }}
 
 #endif
