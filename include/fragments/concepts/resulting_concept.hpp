@@ -15,8 +15,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_RESULTING_CONCEPT_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_RESULTING_CONCEPT_HPP
+#ifndef FRAGMENTS_CONCEPTS_RESULTING_CONCEPT_HPP
+#define FRAGMENTS_CONCEPTS_RESULTING_CONCEPT_HPP
 
 #include "detail.hpp"
 
@@ -31,7 +31,6 @@
 
 namespace fragments {
 namespace concepts {
-namespace utils {
   namespace detail {
     BOOST_MPL_HAS_XXX_TRAIT_DEF(shadow)
 
@@ -152,6 +151,6 @@ namespace utils {
       >::type
     type;
   };
-}}}
+}}
 
 #endif

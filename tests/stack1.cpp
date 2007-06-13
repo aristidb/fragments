@@ -24,6 +24,7 @@
 #include <string>
 
 int main() {
+#if 0
   typedef fragments::combiner<
       fragments::container::stack,
       fragemnts::container::type<std::string>
@@ -33,4 +34,5 @@ int main() {
   std::cout << s.top() << std::endl;
   s.pop();
   std::cout << (s.empty() ? "=> empty" : "=> non-empty") << std::endl;
+#endif
 }

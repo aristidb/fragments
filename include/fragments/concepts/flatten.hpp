@@ -15,8 +15,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_FLATTEN_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_FLATTEN_HPP
+#ifndef FRAGMENTS_CONCEPTS_FLATTEN_HPP
+#define FRAGMENTS_CONCEPTS_FLATTEN_HPP
 
 #include "supports_concept.hpp"
 
@@ -30,7 +30,6 @@
 
 namespace fragments {
 namespace concepts {
-namespace utils {
   namespace detail {
     template<typename First, typename Last, typename Result>
     struct flatten {
@@ -83,6 +82,6 @@ namespace utils {
       >::type
     type;
   };
-}}}
+}}
 
 #endif

@@ -1,4 +1,4 @@
-#include <fragments/concepts/utils/has_concept.hpp>
+#include <fragments/concepts/has_concept.hpp>
 
 #include <boost/mpl/vector.hpp>
 #include <iostream>
@@ -32,7 +32,7 @@ namespace {
 
 int main() {
   typedef boost::mpl::vector3<policyN, policyA, policyB> policy_seq;
-  std::cout << fragments::concepts::utils::has_concept<
+  std::cout << fragments::concepts::has_concept<
     policy_seq,
     conceptA>::value
             << '\n';

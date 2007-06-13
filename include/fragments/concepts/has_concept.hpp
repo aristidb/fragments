@@ -15,8 +15,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_HAS_CONCEPT_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_HAS_CONCEPT_HPP
+#ifndef FRAGMENTS_CONCEPTS_HAS_CONCEPT_HPP
+#define FRAGMENTS_CONCEPTS_HAS_CONCEPT_HPP
 
 #include "supports_concept.hpp"
 
@@ -27,7 +27,6 @@
 
 namespace fragments {
 namespace concepts {
-namespace utils {
 
 template<typename FragmentList, typename Concept>
 struct has_concept
@@ -42,6 +41,6 @@ struct has_concept
     >::type
 { };
 
-}}}
+}}
 
 #endif

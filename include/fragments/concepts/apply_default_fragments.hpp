@@ -15,8 +15,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_APPLY_DEFAULT_FRAGMENTS_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_APPLY_DEFUALT_FRAGMENTS_HPP
+#ifndef FRAGMENTS_CONCEPTS_APPLY_DEFAULT_FRAGMENTS_HPP
+#define FRAGMENTS_CONCEPTS_APPLY_DEFUALT_FRAGMENTS_HPP
 
 #include "has_concept.hpp"
 
@@ -32,9 +32,8 @@
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/if.hpp>
 
-namespace fragments {
-namespace concepts {
-namespace utils {
+namespace fragments { namespace concepts {
+
   namespace detail {
     template<
       typename FragmentSeq,
@@ -575,6 +574,6 @@ namespace utils {
   struct apply_default_fragments {
     typedef typename detail::apply_default_fragments<FragmentSeq>::type type;
   };
-}}}
+}}
 
 #endif

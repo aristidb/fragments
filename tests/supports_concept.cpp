@@ -1,4 +1,4 @@
-#include <fragments/concepts/utils/supports_concept.hpp>
+#include <fragments/concepts/supports_concept.hpp>
 #include <boost/mpl/vector.hpp>
 #include <iostream>
 
@@ -15,7 +15,7 @@ namespace {
 
 int main() {
   std::cout <<
-    fragments::concepts::utils::supports_concept<
+    fragments::concepts::supports_concept<
      policyA,
      conceptA
        >::value

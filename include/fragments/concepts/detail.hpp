@@ -24,7 +24,6 @@
 
 namespace fragments {
 namespace concepts {
-namespace utils {
   namespace detail {
     BOOST_MPL_HAS_XXX_TRAIT_DEF(implies)
     BOOST_MPL_HAS_XXX_TRAIT_DEF(require)
@@ -40,6 +39,6 @@ namespace utils {
       >::type type;
     };
   }
-}}}
+}}
 
 #endif

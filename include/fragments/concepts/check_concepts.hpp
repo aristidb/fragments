@@ -15,8 +15,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_CHECK_CONCEPTS_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_CHECK_CONCEPTS_HPP
+#ifndef FRAGMENTS_CONCEPTS_CHECK_CONCEPTS_HPP
+#define FRAGMENTS_CONCEPTS_CHECK_CONCEPTS_HPP
 
 #include "has_concept.hpp"
 
@@ -27,7 +27,6 @@
 
 namespace fragments {
 namespace concepts {
-namespace utils {
 
 namespace detail {
   template<
@@ -136,6 +135,6 @@ struct check_concepts
   >::type
 { };
 
-}}}
+}}
 
 #endif
