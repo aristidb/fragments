@@ -1,10 +1,28 @@
+// Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld
+//
+// Distributed under the Boost Software License, Version 1.0 and under the MIT
+// License.
+//
+// See accompanying LICENSES.txt or
+// <http://fragments.sourceforge.net/LICENSES.txt> or, for the Boost Software
+// License, <http://www.boost.org/LICENSE_1_0.txt>.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+// SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+// FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+
 #ifndef FRAGMENTS_CONCEPTS_UTILS_SUPPORTS_CONCEPT_HPP
 #define FRAGMENTS_CONCEPTS_UTILS_SUPPORTS_CONCEPT_HPP
+
+#include "detail.hpp"
 
 #include <boost/type_traits/integral_constant.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/pop_front.hpp>
-#include <boost/mpl/has_xxx.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/empty.hpp>
 
@@ -13,8 +31,6 @@ namespace concepts {
 namespace utils {
 
 namespace detail {
-  BOOST_MPL_HAS_XXX_TRAIT_DEF(implies)
-
   template<typename FragmentSeq, typename Concept,
            bool empty = boost::mpl::empty<FragmentSeq>::value>
   struct checker {

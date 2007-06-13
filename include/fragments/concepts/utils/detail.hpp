@@ -15,33 +15,31 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_HAS_CONCEPT_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_HAS_CONCEPT_HPP
+#ifndef FRAGMENTS_CONCEPTS_UTILS_DETAIL_HPP
+#define FRAGMENTS_CONCEPTS_UTILS_DETAIL_HPP
 
-#include "supports_concept.hpp"
-
-#include <boost/mpl/placeholders.hpp>
+#include <boost/mpl/insert_range.hpp>
 #include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/find_if.hpp>
-#include <boost/mpl/not.hpp>
+#include <boost/mpl/has_xxx.hpp>
 
 namespace fragments {
 namespace concepts {
 namespace utils {
+  namespace detail {
+    BOOST_MPL_HAS_XXX_TRAIT_DEF(implies)
+    BOOST_MPL_HAS_XXX_TRAIT_DEF(require)
+    BOOST_MPL_HAS_XXX_TRAIT_DEF(require_before)
+    BOOST_MPL_HAS_XXX_TRAIT_DEF(require_after)
 
-template<typename FragmentList, typename Concept>
-struct has_concept
-  : boost::mpl::not_<
-      boost::is_same<
-        typename boost::mpl::find_if<
-          FragmentList,
-          supports_concept<boost::mpl::_1, Concept>
-        >::type,
-        typename boost::mpl::end<FragmentList>::type
-      >
-    >::type
-{ };
-
+    template<typename SeqA, typename SeqB>
+    struct concat {
+      typedef typename boost::mpl::insert_range<
+        SeqA,
+        typename boost::mpl::end<SeqA>::type,
+        SeqB
+      >::type type;
+    };
+  }
 }}}
 
 #endif

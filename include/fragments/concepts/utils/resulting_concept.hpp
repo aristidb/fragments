@@ -1,13 +1,32 @@
+// Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld
+//
+// Distributed under the Boost Software License, Version 1.0 and under the MIT
+// License.
+//
+// See accompanying LICENSES.txt or
+// <http://fragments.sourceforge.net/LICENSES.txt> or, for the Boost Software
+// License, <http://www.boost.org/LICENSE_1_0.txt>.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+// SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+// FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+
 #ifndef FRAGMENTS_CONCEPTS_UTILS_RESULTING_CONCEPT_HPP
 #define FRAGMENTS_CONCEPTS_UTILS_RESULTING_CONCEPT_HPP
 
-#include "supports_concept.hpp"
+#include "detail.hpp"
 
 #include <boost/mpl/insert_range.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/begin_end.hpp>
 #include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/front.hpp>
 #include <boost/mpl/deref.hpp>
+#include <boost/mpl/empty.hpp>
 #include <boost/mpl/or.hpp>
 
 namespace fragments {
@@ -105,15 +124,6 @@ namespace utils {
     >
     {
       typedef Sequence type;
-    };
-
-    template<typename SeqA, typename SeqB>
-    struct concat {
-      typedef typename boost::mpl::insert_range<
-          SeqA,
-          typename boost::mpl::end<SeqA>::type,
-          SeqB
-        >::type type;
     };
 
     template<typename FragmentSeq,
