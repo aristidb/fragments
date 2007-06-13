@@ -4,25 +4,25 @@
 all: tests examples
 
 tests:
-	cd tests && make
+	$(MAKE) -C tests
 
 examples:
-	cd tests && make
+	$(MAKE) -C examples
 
 .PHONY: clean tests-clean examples-clean
 clean: tests-clean examples-clean
 
 tests-clean:
-	cd tests && make clean
+	$(MAKE) -C tests clean
 
 examples-clean:
-	cd tests && make clean
+	$(MAKE) -C examples clean
 
 .PHONY: dist-clean tests-dist-clean examples-dist-clean
 dist-clean: tests-dist-clean examples-dist-clean
 
 tests-dist-clean:
-	cd tests && make dist-clean
+	$(MAKE) -C tests dist-clean
 
 examples-dist-clean:
-	cd tests && make dist-clean
+	$(MAKE) -C examples dist-clean
