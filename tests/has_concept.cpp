@@ -6,34 +6,31 @@
 namespace {
   struct conceptA { };
 
-  struct policyA {
+  struct fragmentA {
     template<typename Before, typename After>
-    struct policy : public Before { };
+    struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
   };
 
   struct conceptB { };
 
-  struct policyB {
+  struct fragmentB {
     template<typename Before, typename After>
-    struct policy : public Before { };
+    struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptB> concept;
   };
 
-  struct policyN {
+  struct fragmentN {
     template<typename Before, typename After>
-    struct policy : public Before { };
+    struct fragment : public Before { };
 
     typedef boost::mpl::vector0< > concept;
   };
 }
 
 int main() {
-  typedef boost::mpl::vector3<policyN, policyA, policyB> policy_seq;
-  std::cout << fragments::concepts::has_concept<
-    policy_seq,
-    conceptA>::value
-            << '\n';
+  typedef boost::mpl::vector3<fragmentN, fragmentA, fragmentB> fragment_seq;
+  return !fragments::concepts::has_concept<fragment_seq, conceptA>::value;
 }

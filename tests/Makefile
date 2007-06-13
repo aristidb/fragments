@@ -1,27 +1,58 @@
 # based on http://www.c-plusplus.de/forum/viewtopic-var-t-is-88418.html
 #
 
+# TODO use colors?
+
 CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
 CXX      := g++
 LIBS     :=
-EXT      := cpp
 
-SOURCES  := $(wildcard *.$(EXT))
-DEPS     := $(patsubst %.$(EXT), %.dep, $(SOURCES))
-TARGETS  := $(patsubst %.$(EXT), %, $(SOURCES))
+SOURCES       := $(wildcard *.cpp)
+DEPS          := $(patsubst %.cpp, %.dep, $(SOURCES))
 
-.PHONY: all
-all: $(TARGETS)
+COMPSOURCES   := $(wildcard *[^-invalid].cpp)
+COMPTARGETS   := $(patsubst %.cpp, %, $(COMPSOURCES))
+
+NOCOMPSOURCES := $(wildcard *-invalid.cpp)
+NOCOMPTARGETS := $(patsubst %.cpp, %, $(NOCOMPSOURCES))
+
+.PHONY: all start
+all: start $(NOCOMPTARGETS) $(COMPTARGETS)
+	@echo "Done"
+
+start:
+	@echo "Running Tests:"
 
 ifneq ($(MAKECMDGOALS), clean)
 -include $(DEPS)
 endif
 
-$(TARGETS): %: %.$(EXT) %.dep
-	$(CXX) $(CXXFLAGS) $(LIBS) $< -o $@
+$(COMPTARGETS): %: %.cpp %.dep
+	@if $(CXX) $(CXXFLAGS) $(LIBS) $< -o $@; then \
+	  if ./$@; then \
+	    echo -e '\t' $< 'passed'; \
+	    true; \
+	  else \
+	    echo -e '\t' $< 'failed [running]'; \
+	    false; \
+	  fi; \
+	 else  \
+	  echo -e '\t' $< 'failed [compile]'; \
+	  false; \
+	 fi
 
-$(DEPS): %.dep: %.$(EXT)
-	$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.$(EXT)=.o) -o $@
+$(DEPS): %.dep: %.cpp
+	@$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.cpp=.o) -o $@
+
+$(NOCOMPTARGETS): %: %.cpp %.dep
+	@if $(CXX) $(CXXFLAGS) $(LIBS) $< -o $@ 2> /dev/null; then \
+	   echo -e '\t' $< 'failed'; \
+	   rm -f $@; \
+           false; \
+         else \
+           echo -e '\t' $< 'passed'; \
+	   true; \
+         fi
 
 .PHONY: clean
 clean:
@@ -29,4 +60,4 @@ clean:
 
 .PHONY: dist-clean
 dist-clean:
-	rm -rf $(DEPS) $(TARGETS)
+	rm -rf $(DEPS) $(COMPTARGETS)

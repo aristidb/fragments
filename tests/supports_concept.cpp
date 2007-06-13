@@ -5,19 +5,14 @@
 namespace {
   struct conceptA { };
 
-  struct policyA {
+  struct fragmentA {
     template<typename Before, typename After>
-    struct policy : public Before { };
+    struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
   };
 }
 
 int main() {
-  std::cout <<
-    fragments::concepts::supports_concept<
-     policyA,
-     conceptA
-       >::value
-            << '\n';
+  return !fragments::concepts::supports_concept<fragmentA, conceptA>::value;
 }
