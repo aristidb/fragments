@@ -30,8 +30,12 @@ struct type {
   typedef boost::mpl::vector1<concepts::type_provider> concept;
 
   template<typename Before, typename After>
-  struct fragment : Before {
+  struct fragment : public Before {
     typedef T value_type;
+    typedef T* pointer;
+    typedef T const* const_pointer;
+    typedef T& reference;
+    typedef T const &reference;
   };
 };
 

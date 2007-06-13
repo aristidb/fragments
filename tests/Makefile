@@ -55,9 +55,11 @@ $(NOCOMPTARGETS): %: %.cpp %.dep
          fi
 
 .PHONY: clean
-clean:
-	rm -rf $(DEPS)
+clean: dist-clean
 
 .PHONY: dist-clean
 dist-clean:
 	rm -rf $(DEPS) $(COMPTARGETS)
+
+.PHONY: rerun
+rerun: dist-clean all

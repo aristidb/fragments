@@ -1,13 +1,16 @@
+PREFIX := /usr/local
 
-
-.PHONY: all tests examples
-all: tests examples
+.PHONY: all tests examples install
+all: examples
 
 tests:
-	$(MAKE) -C tests
+	$(MAKE) -k -C tests
 
 examples:
 	$(MAKE) -C examples
+
+install:
+	@echo "TODO" #@cp -r include/fragments $(PREFIX)/include
 
 .PHONY: clean tests-clean examples-clean
 clean: tests-clean examples-clean
