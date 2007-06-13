@@ -1,3 +1,4 @@
+#include <typeinfo>
 #include <iostream>
 #include <boost/mpl/size.hpp>
 

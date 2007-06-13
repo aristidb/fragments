@@ -1,4 +1,5 @@
 #ifndef PPTEST
+#include <typeinfo>
 #include <iostream>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/back.hpp>
