@@ -77,13 +77,13 @@ struct combined {
       > type; \
     };
 
-  BOOST_PP_REPEAT(20, CREATE_VECTOR_IMPL, ~)
+  BOOST_PP_REPEAT(21, CREATE_VECTOR_IMPL, ~)
 
   #undef CREATE_VECTOR_IMPL
   #undef ELEMENT_AT
 // ----
 
 int main() {
-  typedef combined<int, char>::type x1;
+  typedef combined<int, boost::mpl::vector3<char, int, char>, int, char, int, char, int, char, int, char, int, char, int, char, int, char, int, char>::type x1;
   std::cout << "_Z1x" << typeid(create_vector<x1>::type).name() << std::endl;
 }
