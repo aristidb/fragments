@@ -4,7 +4,7 @@ PREFIX := /usr/local
 all: examples
 
 tests:
-	$(MAKE) -k -C tests
+	@$(MAKE) -k -C tests rerun
 
 examples:
 	$(MAKE) -C examples

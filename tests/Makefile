@@ -16,8 +16,11 @@ COMPTARGETS   := $(patsubst %.cpp, %, $(COMPSOURCES))
 NOCOMPSOURCES := $(wildcard *-invalid.cpp)
 NOCOMPTARGETS := $(patsubst %.cpp, %, $(NOCOMPSOURCES))
 
-.PHONY: all start
-all: start $(NOCOMPTARGETS) $(COMPTARGETS)
+.PHONY: all test start
+all:
+	@$(MAKE) -k test
+
+test: start $(NOCOMPTARGETS) $(COMPTARGETS)
 	@echo "Done"
 
 start:
@@ -59,7 +62,7 @@ clean: dist-clean
 
 .PHONY: dist-clean
 dist-clean:
-	rm -rf $(DEPS) $(COMPTARGETS)
+	@rm -rf $(DEPS) $(COMPTARGETS)
 
 .PHONY: rerun
 rerun: dist-clean all
