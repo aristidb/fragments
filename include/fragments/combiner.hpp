@@ -32,7 +32,6 @@
 namespace fragments {
 
 namespace detail {
-
   template<typename Sequence>
   struct combine {
     typedef typename seq_of_elements<Sequence>::type sequence_;
