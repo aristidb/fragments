@@ -18,7 +18,7 @@
 #ifndef FRAGMENTS_CONCEPTS_SUPPORTS_CONCEPT_HPP
 #define FRAGMENTS_CONCEPTS_SUPPORTS_CONCEPT_HPP
 
-#include "detail.hpp"
+#include "detail/has_implies.hpp"
 
 #include <boost/type_traits/integral_constant.hpp>
 #include <boost/type_traits/is_same.hpp>

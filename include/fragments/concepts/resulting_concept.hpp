@@ -18,7 +18,8 @@
 #ifndef FRAGMENTS_CONCEPTS_RESULTING_CONCEPT_HPP
 #define FRAGMENTS_CONCEPTS_RESULTING_CONCEPT_HPP
 
-#include "detail.hpp"
+#include "detail/has_implies.hpp"
+#include "detail/concat.hpp"
 #include "flatten.hpp"
 
 #include <boost/mpl/insert_range.hpp>

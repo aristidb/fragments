@@ -18,6 +18,8 @@
 #ifndef FRAGMENTS_CONCEPTS_APPLY_DEFAULT_FRAGMENTS_HPP
 #define FRAGMENTS_CONCEPTS_APPLY_DEFUALT_FRAGMENTS_HPP
 
+#include "detail/has_require.hpp"
+#include "detail/concat.hpp"
 #include "has_concept.hpp"
 
 #include <boost/mpl/next_prior.hpp>

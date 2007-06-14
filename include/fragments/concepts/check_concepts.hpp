@@ -18,8 +18,10 @@
 #ifndef FRAGMENTS_CONCEPTS_CHECK_CONCEPTS_HPP
 #define FRAGMENTS_CONCEPTS_CHECK_CONCEPTS_HPP
 
+#include "detail/has_require.hpp"
 #include "has_concept.hpp"
 
+#include <boost/mpl/iterator_range.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/deref.hpp>

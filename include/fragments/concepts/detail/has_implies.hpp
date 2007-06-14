@@ -15,30 +15,13 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_UTILS_DETAIL_HPP
-#define FRAGMENTS_CONCEPTS_UTILS_DETAIL_HPP
+#ifndef FRAGMENTS_CONCEPTS_DETAIL_HAS_IMPLIES_HPP
+#define FRAGMENTS_CONCEPTS_DETAIL_HAS_IMPLIES_HPP
 
-#include <boost/mpl/insert_range.hpp>
-#include <boost/mpl/begin_end.hpp>
 #include <boost/mpl/has_xxx.hpp>
 
-namespace fragments {
-namespace concepts {
-  namespace detail {
-    BOOST_MPL_HAS_XXX_TRAIT_DEF(implies)
-    BOOST_MPL_HAS_XXX_TRAIT_DEF(require)
-    BOOST_MPL_HAS_XXX_TRAIT_DEF(require_before)
-    BOOST_MPL_HAS_XXX_TRAIT_DEF(require_after)
-
-    template<typename SeqA, typename SeqB>
-    struct concat {
-      typedef typename boost::mpl::insert_range<
-        SeqA,
-        typename boost::mpl::end<SeqA>::type,
-        SeqB
-      >::type type;
-    };
-  }
-}}
+namespace fragments { namespace concepts { namespace detail {
+BOOST_MPL_HAS_XXX_TRAIT_DEF(implies)
+}}}
 
 #endif
