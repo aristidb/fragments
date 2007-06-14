@@ -59,6 +59,7 @@ $(NOCOMPTARGETS): %: %.cpp %.dep
            false; \
          else \
            echo -e '\t' $< 'passed'; \
+	   touch $@; \
 	   true; \
          fi
 
