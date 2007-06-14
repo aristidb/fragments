@@ -1,3 +1,5 @@
+// vim:ts=2:sw=2:expandtab:autoindent:filetype=cpp:
+
 // Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld
 //
 // Distributed under the Boost Software License, Version 1.0 and under the MIT
@@ -240,10 +242,11 @@ namespace fragments { namespace concepts {
     template<
       typename FragmentSeq,
       typename Graph = typename init_graph<FragmentSeq>::type,
-      bool = boost::mpl::empty<FragmentSeq>::value
+      typename First = typename boost::mpl::begin<FragmentSeq>::type,
+      typename Last = typename boost::mpl::end<FragmentSeq>::type
     >
     struct order_graph {
-      typedef typename boost::mpl::front<FragmentSeq>::type fragment;
+      typedef typename boost::mpl::deref<First>::type fragment;
 
       typedef typename fragment_graph_before<
           FragmentSeq,
@@ -258,13 +261,15 @@ namespace fragments { namespace concepts {
         >::type after;
 
       typedef typename order_graph<
-          typename boost::mpl::pop_front<FragmentSeq>::type,
-          after
+          FragmentSeq,
+          after,
+          typename boost::mpl::next<First>::type,
+          Last
         >::type type;
     };
 
-    template<typename FragmentSeq, typename Graph>
-    struct order_graph<FragmentSeq, Graph, true> {
+    template<typename FragmentSeq, typename Graph, typename End>
+    struct order_graph<FragmentSeq, Graph, End, End> {
       typedef typename clean_graph<Graph>::type type;
     };
 
