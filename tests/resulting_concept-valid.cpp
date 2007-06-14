@@ -21,6 +21,7 @@
 
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/mpl/and.hpp>
+#include <boost/mpl/size.hpp>
 #include <boost/mpl/vector.hpp>
 #include <iostream>
 
@@ -76,6 +77,127 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
         BOOST_PP_STRINGIZE(expect) << '\n';                        \
   }
 
+namespace {
+  struct conceptA { };
+  struct conceptiA { typedef boost::mpl::vector1<conceptA> implies; };
+  struct conceptiAiA { typedef boost::mpl::vector1<conceptiA> implies; };
+  struct conceptB { };
+  struct conceptC { };
+
+  struct fragmentA {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptA> concept;
+  };
+
+  struct fragmentAiA {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector2<conceptA, conceptiA> concept;
+  };
+
+  struct fragmentiA {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptiA> concept;
+  };
+
+  struct fragmentiAiA {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptiAiA> concept;
+  };
+
+  struct fragmentB {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptB> concept;
+  };
+
+  struct fragmentC {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptC> concept;
+  };
+
+  struct fragment0 {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+    
+    typedef boost::mpl::vector0< > concept;
+  };
+}
+
 int main() {
-  // TODO ...
+  bool ret = true;
+  {
+    typedef boost::mpl::vector0< > seq;
+    typedef boost::mpl::vector0< > result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector1<fragment0> seq;
+    typedef boost::mpl::vector0< > result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector1<fragmentA> seq;
+    typedef boost::mpl::vector1<conceptA> result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> seq;
+    typedef boost::mpl::vector3<conceptA, conceptB, conceptC> result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector1<fragmentiA> seq;
+    typedef boost::mpl::vector2<conceptA, conceptiA> result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector3<fragmentB, fragmentiA, fragmentC> seq;
+    typedef boost::mpl::vector4<conceptB, conceptA, conceptiA, conceptC> result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector1<fragmentiAiA> seq;
+    typedef boost::mpl::vector3<conceptA, conceptiA, conceptiAiA> result;
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  {
+    typedef boost::mpl::vector1<fragmentAiA> seq;
+    typedef boost::mpl::vector3<conceptA, conceptA, conceptiA> result;
+
+    /*
+      should this be rather vector2<conceptA, conceptiA>?
+     */
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+
+  {
+    typedef boost::mpl::vector2<fragmentA, fragmentiA> seq;
+    typedef boost::mpl::vector3<conceptA, conceptA, conceptiA> result;
+
+    /*
+      should this be rather vector2<conceptA, conceptiA>?
+     */
+
+    CHECK(fragments::concepts::resulting_concept<seq>::type, result)
+  }
+  return ret ? 0 : 1;
 }
