@@ -1,0 +1,32 @@
+detail::reorder<
+  vector3<fragmentC, fragmentA, fragmentB>,
+  set1<fragmentC>,
+  map3<
+    pair<fragmentC, set0<> >,
+    pair<fragmentA, set0<> >,
+    pair<fragmentB, set0<> >
+  >,
+  vector17<fragmentA, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB>,
+  s_iter<
+    set1<fragmentC>,
+    set1<fragmentC>
+  >,
+  s_iter<
+    set1<fragmentC>,
+    set0<mpl_::na>
+  >
+>
+
+sehe da keinen fehler:
+detail::reorder<
+  vector3<fragmentC, fragmentA, fragmentB>,
+  set1<fragmentC>,
+  map3<
+    pair<fragmentC, set0<> >,
+    pair<fragmentA, set0<> >,
+    pair<fragmentB, set0<> >
+  >,
+  vector6<fragmentA, fragmentB, fragmentB, fragmentB, fragmentB, fragmentB>,
+  begin<set1<fragmentC> >::type,
+  end<set1<fragmentC> >::type
+>

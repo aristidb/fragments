@@ -337,6 +337,31 @@ namespace fragments { namespace concepts {
     };
 
     template<
+      typename Set,
+      typename Result = boost::mpl::set0<>,
+      typename First = typename boost::mpl::begin<Set>::type,
+      typename Last = typename boost::mpl::end<Set>::type
+    >
+    struct clean_set {
+      typedef typename boost::mpl::deref<First>::type key;
+      typedef typename clean_set<
+          Set,
+          typename boost::mpl::eval_if<
+            boost::mpl::has_key<Result, key>,
+            boost::mpl::identity<Result>,
+            boost::mpl::insert<Result, key>
+          >::type,
+          typename boost::mpl::next<First>::type,
+          Last
+        >::type type;
+    };
+
+    template<typename Set, typename Result, typename End>
+    struct clean_set<Set, Result, End, End> {
+      typedef Result type;
+    };
+
+    template<
       typename FragmentSeq,
       typename Fragments,
       typename Graph,
@@ -374,9 +399,11 @@ namespace fragments { namespace concepts {
         >::type next_graph;
       typedef typename reorder<
           FragmentSeq,
-          typename boost::mpl::erase_key<
-            Fragments,
-            N
+          typename clean_set<
+            typename boost::mpl::erase_key<
+              Fragments,
+              N
+            >::type
           >::type,
           next_graph,
           next
