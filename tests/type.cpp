@@ -23,6 +23,11 @@
 #include <iostream>
 
 int main() {
-  std::cout << boost::is_same<combiner<type<int*> >::value_type, int*>::value;
-  std::cout << '\n';
+  return 
+    !boost::is_same<
+      fragments::combiner<
+        fragments::container::type<int*>
+      >::value_type,
+      int*
+    >::value;
 }

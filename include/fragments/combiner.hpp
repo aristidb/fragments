@@ -29,6 +29,7 @@
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/back.hpp>
 #include <boost/mpl/empty.hpp>
+#include <boost/mpl/size.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/at.hpp>
@@ -175,10 +176,13 @@ template<
 struct combiner
   : detail::combine<
       typename detail::seq_of_elements<
-        BOOST_PP_ENUM_PARAMS(
-          BOOST_MPL_LIMIT_VECTOR_SIZE,
-          Fragment
-        )
+        BOOST_PP_CAT(boost::mpl::vector, BOOST_MPL_LIMIT_VECTOR_SIZE)
+        <
+          BOOST_PP_ENUM_PARAMS(
+            BOOST_MPL_LIMIT_VECTOR_SIZE,
+            Fragment
+          )
+        >
       >::type
     >::type
 {
