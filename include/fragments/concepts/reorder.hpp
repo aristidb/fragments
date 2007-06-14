@@ -20,6 +20,7 @@
 
 #include "detail/has_require.hpp"
 #include "supports_concept.hpp"
+
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/erase_key.hpp>

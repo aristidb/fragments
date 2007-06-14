@@ -24,12 +24,6 @@
 #include <boost/mpl/vector.hpp>
 #include <iostream>
 
-/*
-  TODO
-Problem: equivalent_sequence depends on order. Thus checks depend on the order
-         of the result of flatten!
- */
-
 template<typename SeqA,
          typename SeqB,
          bool emptyA = boost::mpl::empty<SeqA>::value,
@@ -76,6 +70,59 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
         BOOST_PP_STRINGIZE(expect) << '\n';                        \
   }
 
+namespace {
+  struct conceptA { };
+  struct conceptB { };
+  struct conceptC { };
+
+  struct fragmentA {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptA> concept;
+
+    //    typedef boost::mpl::vector2<conceptB, conceptC> require;
+  };
+
+  struct fragmentB {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptB> concept;
+
+    typedef boost::mpl::vector1<conceptA> require_before;
+    typedef boost::mpl::vector1<conceptC> require_after;
+  };
+
+  struct fragmentC {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+
+    typedef boost::mpl::vector1<conceptC> concept;
+
+    typedef boost::mpl::vector1<conceptA> require_before;
+    //    typedef boost::mpl::vector1<conceptB> require;
+  };
+}
+
 int main() {
-  // TODO ...
+  bool ret = true;
+
+  {
+    typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
+    typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
+
+    bool b = equivalent_sequence<
+    fragments::concepts::reorder<
+    boost::mpl::vector3<fragmentC, fragmentA, fragmentB>
+      >::type
+    , result>::value;
+    ret = ret && b;
+    if(!b)
+      std::cerr << __FILE__ ":" BOOST_PP_STRINGIZE(__LINE__) ":"
+        " FAILED: " BOOST_PP_STRINGIZE(X) " not equaivalent to "
+        BOOST_PP_STRINGIZE(expect) << '\n';
+  }
+  
+  return ret ? 0 : 1;
 }
