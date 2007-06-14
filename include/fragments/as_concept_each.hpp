@@ -23,6 +23,7 @@
 #include <fragments/as_fragment.hpp>
 #include <fragments/filter_concept.hpp>
 #include <boost/mpl/for_each.hpp>
+#include <boost/ref.hpp>
 
 namespace fragments {
 
@@ -36,7 +37,8 @@ namespace detail {
 
     template<typename Fragment>
     void operator() (Fragment const &) {
-      fun(as_fragment<Fragment>(*ptr));
+      typename boost::unwrap_reference<Fun>::type &r = fun;
+      r(as_fragment<Fragment>(*ptr));
     }
   };
 

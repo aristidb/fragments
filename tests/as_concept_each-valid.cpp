@@ -19,6 +19,7 @@
 
 #include <fragments/combiner.hpp>
 #include <fragments/as_concept_each.hpp>
+#include <boost/ref.hpp>
 
 unsigned n = 0;
 
@@ -44,13 +45,13 @@ struct f2 {
 
 struct a {
   template<typename X>
-  void operator() (X &x) {
+  void operator() (X &x) const {
     x.action();
   }
 };
 
 int main() {
   fragments::combiner<f1<2>, f2, f1<4> > x;
-  fragments::as_concept_each<c>(x, a());
+  fragments::as_concept_each<c>(x, boost::cref(a()));
   return n != 6;
 }
