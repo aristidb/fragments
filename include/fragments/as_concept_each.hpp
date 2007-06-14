@@ -20,6 +20,7 @@
 #ifndef FRAGMENTS_AS_CONCEPT_EACH_HPP
 #define FRAGMENTS_AS_CONCEPT_EACH_HPP
 
+#include <fragments/as_fragment.hpp>
 #include <fragments/filter_concept.hpp>
 #include <boost/mpl/for_each.hpp>
 
@@ -38,18 +39,23 @@ namespace detail {
       fun(as_fragment<Fragment>(*ptr));
     }
   };
+
+  template<typename P, typename Fun>
+  invoker<P, Fun> make_invoker(P ptr, Fun fun) {
+    return invoker<P, Fun>(ptr, fun);
+  }
 }
 
 template<typename C, typename H, typename F>
 void as_concept_each(H &h, F fun) {
-  typedef filter_concept_lazy<typename H::fragments, C>::type filtered;
-  boost::mpl::for_each<filtered>(detail::invoker(&h, fun));
+  typedef typename filter_concept_lazy<typename H::fragments, C>::type filtered;
+  boost::mpl::for_each<filtered>(detail::make_invoker(&h, fun));
 }
 
 template<typename C, typename H, typename F>
 void as_concept_each(H const &h, F fun) {
-  typedef filter_concept_lazy<typename H::fragments, C>::type filtered;
-  boost::mpl::for_each<filtered>(detail::invoker(&h, fun));
+  typedef typename filter_concept_lazy<typename H::fragments, C>::type filtered;
+  boost::mpl::for_each<filtered>(detail::make_invoker(&h, fun));
 }
 
 }

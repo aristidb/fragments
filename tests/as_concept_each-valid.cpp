@@ -17,26 +17,40 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_FILTER_CONCEPT_HPP
-#define FRAGMENTS_FILTER_CONCEPT_HPP
+#include <fragments/combiner.hpp>
+#include <fragments/as_concept_each.hpp>
 
-#include <fragments/concepts/supports_concept.hpp>
-#include <boost/mpl/filter_view.hpp>
-#include <boost/mpl/placeholders.hpp>
+unsigned n = 0;
 
-namespace fragments {
+struct c {};
 
-template<typename FragmentSeq, typename Concept>
-struct filter_concept_lazy {
-  typedef typename boost::mpl::filter_view<
-      FragmentSeq,
-      concepts::supports_concept<
-        boost::mpl::_1,
-        Concept
-      >
-    >::type type;
+template<unsigned x>
+struct f1 {
+  typedef boost::mpl::vector1<c> concept;
+
+  template<typename Before, typename>
+  struct fragment : Before {
+    void action() {
+      n |= x;
+    }
+  };
 };
 
-}
+struct f2 {
+  typedef boost::mpl::vector0<> concept;
+  template<typename Before, typename>
+  struct fragment : Before {};
+};
 
-#endif
+struct a {
+  template<typename X>
+  void operator() (X &x) {
+    x.action();
+  }
+};
+
+int main() {
+  fragments::combiner<f1<2>, f2, f1<4> > x;
+  fragments::as_concept_each<c>(x, a());
+  return n != 6;
+}
