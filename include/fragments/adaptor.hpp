@@ -20,8 +20,11 @@
 #ifndef FRAGMENTS_ADAPTOR_HPP
 #define FRAGMENTS_ADAPTOR_HPP
 
+#include <boost/mpl/vector.hpp>
+
 namespace fragments {
-  template<typename AdaptThis, typename ConceptSeq>
+  template<typename AdaptThis, typename ConceptSeq,
+           typename RequireAfter = boost::mpl::vector0< > >
   struct adaptor {
     template<typename Before, typename After>
     struct fragment : Before, AdaptThis { };
