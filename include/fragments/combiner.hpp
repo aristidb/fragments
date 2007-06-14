@@ -39,7 +39,6 @@
 namespace fragments {
 
 namespace detail {
-
   template<
     typename Seq,
     typename Add
