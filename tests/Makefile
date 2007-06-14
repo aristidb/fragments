@@ -10,7 +10,7 @@ LIBS     :=
 SOURCES       := $(wildcard *.cpp)
 DEPS          := $(patsubst %.cpp, %.dep, $(SOURCES))
 
-COMPSOURCES   := $(wildcard *[^-invalid].cpp) # TODO regex is wrong!!!!!!
+COMPSOURCES   := $(wildcard *-valid.cpp)
 COMPTARGETS   := $(patsubst %.cpp, %, $(COMPSOURCES))
 
 NOCOMPSOURCES := $(wildcard *-invalid.cpp)
