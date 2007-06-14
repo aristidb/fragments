@@ -1,4 +1,12 @@
 PREFIX := /usr/local
+export PREFIX
+
+CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
+export CXXFLAGS
+CXX      := g++
+export CXX
+LIBS     :=
+export LIBS
 
 .PHONY: all tests examples install
 all: examples

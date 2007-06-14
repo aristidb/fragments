@@ -1,10 +1,15 @@
 # based on http://www.c-plusplus.de/forum/viewtopic-var-t-is-88418.html
 #
 
+ifndef CXXFLAGS
 CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
+endif
+ifndef CXX
 CXX      := g++
+endif
+ifndef LIBS
 LIBS     :=
-EXT      := cpp
+endif
 
 SOURCES  := $(wildcard *.$(EXT))
 DEPS     := $(patsubst %.$(EXT), %.dep, $(SOURCES))
