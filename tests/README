@@ -4,6 +4,8 @@ We use a fairly simple Makefile based Test-System. The Test-System knows about t
 
 Tests may not write to stderr or stdout if they succeed! Tests may not expect input and should work completly without user interaction!
 
+(while a -valid.cpp-Test can run several testcases at once, a -invalid.cpp-Test can of course only test one testcase!)
+
 Running the Test-System requires GNU/make.
 
 -- Remember: Tests can only proof the existence and _not_ the absence of Bugs --

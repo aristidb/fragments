@@ -70,6 +70,7 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
         BOOST_PP_STRINGIZE(expect) << '\n';                        \
   }
 
+namespace {
   struct conceptA { };
   struct conceptB { };
   struct conceptC { };
@@ -80,7 +81,7 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
 
     typedef boost::mpl::vector1<conceptA> concept;
 
-    //    typedef boost::mpl::vector2<conceptB, conceptC> require;
+    typedef boost::mpl::vector2<conceptB, conceptC> require;
   };
 
   struct fragmentB {
@@ -100,8 +101,9 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
     typedef boost::mpl::vector1<conceptC> concept;
 
     typedef boost::mpl::vector1<conceptA> require_before;
-    //    typedef boost::mpl::vector1<conceptB> require;
+    typedef boost::mpl::vector1<conceptB> require;
   };
+}
 
 int main() {
   bool ret = true;
@@ -110,18 +112,9 @@ int main() {
     typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
     typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
 
-    bool b = equivalent_sequence<
-        fragments::concepts::reorder<
-          seq
-        >::type,
-        result
-      >::value;
 
-    ret = ret && b;
-    if(!b)
-      std::cerr << __FILE__ ":" BOOST_PP_STRINGIZE(__LINE__) ":"
-        " FAILED: " BOOST_PP_STRINGIZE(X) " not equaivalent to "
-        BOOST_PP_STRINGIZE(expect) << '\n';
+    CHECK(fragments::concepts::reorder<seq>::type,
+          result)
   }
   
   return ret ? 0 : 1;
