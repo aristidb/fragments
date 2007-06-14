@@ -17,7 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/concepts/apply_default_fragments.hpp>
+#include <fragments/concepts/reorder.hpp>
 
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/mpl/and.hpp>
