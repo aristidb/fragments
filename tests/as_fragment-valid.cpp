@@ -17,29 +17,21 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_AS_FRAGMENT_HPP
-#define FRAGMENTS_AS_FRAGMENT_HPP
+#include <fragments/combiner.hpp>
+#include <fragments/as_fragment.hpp>
 
-#include <fragments/detail/find_fragment.hpp>
+struct frag {
+  template<typename Before, typename>
+  struct fragment : Before {
+    void call_frag() {}
+    void call_frag_const() const {}
+  };
+};
 
-namespace fragments {
-
-template<typename T, typename H>
-typename detail::find_fragment<typename H::fragments, T>::type &
-as_fragment(H &c) {
-  return *static_cast<
-      typename detail::find_fragment<typename H::fragments, T>::type *
-    >(&c);
+int main() {
+  fragments::combiner<frag> x;
+  fragments::as_fragment<frag>(x).call_frag();
+  fragments::as_fragment<frag>(
+      const_cast<fragments::combiner<frag> const &>(x)
+    ).call_frag_const();
 }
-
-template<typename T, typename H>
-typename detail::find_fragment<typename H::fragments, T>::type const &
-as_fragment(H const &c) {
-  return *static_cast<
-      typename detail::find_fragment<typename H::fragments, T>::type const *
-    >(&c);
-}
-
-}
-
-#endif

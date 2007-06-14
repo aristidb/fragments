@@ -20,7 +20,6 @@
 #include <fragments/combiner.hpp>
 #include <fragments/container/type.hpp>
 #include <boost/type_traits.hpp>
-#include <iostream>
 
 int main() {
   return 
