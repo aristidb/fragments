@@ -103,6 +103,13 @@ namespace {
     typedef boost::mpl::vector1<conceptA> require_before;
     typedef boost::mpl::vector1<conceptB> require;
   };
+
+  struct fragment0 {
+    template<typename Before, typename After>
+    struct fragment : public Before { };
+    
+    typedef boost::mpl::vector0< > concept;
+  };
 }
 
 int main() {
@@ -112,6 +119,22 @@ int main() {
     typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
     typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
 
+    CHECK(fragments::concepts::reorder<seq>::type,
+          result)
+  }
+
+  {
+    typedef boost::mpl::vector4<fragmentC, fragmentA, fragment0, fragmentB> seq;
+    typedef boost::mpl::vector4<fragment0, fragmentA, fragmentB,
+      fragmentC> result;
+
+    CHECK(fragments::concepts::reorder<seq>::type,
+          result)
+  }
+
+  {
+    typedef boost::mpl::vector0< > seq;
+    typedef boost::mpl::vector0< > result;
 
     CHECK(fragments::concepts::reorder<seq>::type,
           result)
