@@ -20,7 +20,7 @@
 
 #include "detail/has_require.hpp"
 #include "supports_concept.hpp"
-
+#include <boost/mpl/map.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/erase_key.hpp>
 #include <boost/mpl/identity.hpp>
@@ -33,12 +33,9 @@
 #include <boost/mpl/copy.hpp>
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/set.hpp>
-#include <boost/mpl/map.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/if.hpp>
-
 #include <boost/type_traits/is_same.hpp>
-
 #include <boost/static_assert.hpp>
 
 namespace fragments { namespace concepts {
