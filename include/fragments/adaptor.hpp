@@ -30,6 +30,7 @@ namespace fragments {
     struct fragment : Before, AdaptThis { };
 
     typedef ConceptSeq concept;
+    typedef RequireAfter require_after;
   };
 }
 
