@@ -18,64 +18,64 @@
 // DEALINGS IN THE SOFTWARE.
 
 #include <fragments/concepts/apply_default_fragments.hpp>
-
-#include <boost/preprocessor/stringize.hpp>
-#include <boost/mpl/and.hpp>
 #include <boost/mpl/vector.hpp>
-#include <iostream>
+#include <boost/mpl/map.hpp>
+#include <boost/mpl/pair.hpp>
+#include <boost/mpl/size.hpp>
+#include <boost/mpl/at.hpp>
+#include <boost/type_traits.hpp>
+#include <boost/static_assert.hpp>
 
-/*
-  TODO
-Problem: equivalent_sequence depends on order. Thus checks depend on the order
-         of the result of flatten!
- */
+using namespace boost;
 
-template<typename SeqA,
-         typename SeqB,
-         bool emptyA = boost::mpl::empty<SeqA>::value,
-         bool emptyB = boost::mpl::empty<SeqB>::value>
-struct equivalent_sequence
-  : boost::mpl::and_<
-      typename boost::is_same<
-        typename boost::mpl::front<SeqA>::type,
-        typename boost::mpl::front<SeqB>::type
-      >::type,
-      typename equivalent_sequence<
-        typename boost::mpl::pop_front<SeqA>::type,
-        typename boost::mpl::pop_front<SeqB>::type
-     >::type>
-{ };
+struct container {};
 
-template<typename SeqA,
-         typename SeqB>
-struct equivalent_sequence<SeqA, SeqB, true, true>
-  : boost::mpl::true_
-{ };
+struct vector {
+  typedef mpl::vector1<container> concept;
+};
 
-template<typename SeqA,
-         typename SeqB,
-         bool x>
-struct equivalent_sequence<SeqA, SeqB, x, true>
-  : boost::mpl::false_
-{ };
+struct list {
+  typedef mpl::vector1<container> concept;
+};
 
-template<typename SeqA,
-         typename SeqB,
-         bool x>
-struct equivalent_sequence<SeqA, SeqB, true, x>
-  : boost::mpl::false_
-{ };
-
-#define CHECK(X, expect)                                           \
-  {                                                                \
-    bool b = equivalent_sequence<X, expect>::value;                \
-    ret = ret && b;                                                \
-    if(!b)                                                         \
-      std::cerr << __FILE__ ":" BOOST_PP_STRINGIZE(__LINE__) ":"   \
-        " FAILED: " BOOST_PP_STRINGIZE(X) " not equaivalent to "   \
-        BOOST_PP_STRINGIZE(expect) << '\n';                        \
-  }
+struct stack {
+  typedef mpl::vector0<> concept;
+  typedef mpl::vector1<container> require_before;
+  typedef mpl::map1<
+      mpl::pair<
+        container,
+        vector
+      >
+    > default_fragment;
+};
 
 int main() {
-  // TODO ...
+  {
+    typedef mpl::vector1<stack> seq;
+    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, vector>::value));
+  }
+  {
+    typedef mpl::vector2<stack, list> seq;
+    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, list>::value));
+  }
+  {
+    typedef mpl::vector2<list, stack> seq;
+    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, list>::value));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, stack>::value));
+  }
+  {
+    typedef mpl::vector2<stack, vector> seq;
+    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
+    BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, vector>::value));
+  }
 }
