@@ -17,8 +17,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/container/type.hpp>
 #include <fragments/combiner.hpp>
+#include <fragments/container/type.hpp>
 #include <boost/type_traits.hpp>
 #include <iostream>
 

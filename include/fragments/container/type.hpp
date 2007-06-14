@@ -32,10 +32,10 @@ struct type {
   template<typename Before, typename After>
   struct fragment : public Before {
     typedef T value_type;
-    typedef T* pointer;
-    typedef T const* const_pointer;
-    typedef T& reference;
-    typedef T const &reference;
+    typedef T *pointer;
+    typedef T const *const_pointer;
+    typedef T &reference;
+    typedef T const &const_reference;
   };
 };
 
