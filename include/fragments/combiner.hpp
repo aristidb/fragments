@@ -25,6 +25,8 @@
 #include <fragments/detail/create_vector.hpp>
 #include <boost/mpl/back.hpp>
 #include <boost/mpl/vector.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/static_assert.hpp>
 #include <boost/preprocessor.hpp>
 
 namespace fragments {
@@ -33,7 +35,12 @@ namespace detail {
 
   template<typename Sequence>
   struct combine {
-    typedef typename create_vector<Sequence>::type sequence;
+    typedef typename seq_of_elements<Sequence>::type sequence_;
+
+    // DIAGNOSIS: fragments::combiner<> needs at least one fragment
+    BOOST_STATIC_ASSERT(!boost::mpl::empty<sequence_>::value);
+
+    typedef typename create_vector<sequence_>::type sequence;
     typedef typename boost::mpl::back<sequence>::type back;
     typedef typename find_fragment<sequence, back>::type type;
   };
@@ -48,15 +55,13 @@ template<
 >
 struct combiner
   : detail::combine<
-      typename detail::seq_of_elements<
-        BOOST_PP_CAT(boost::mpl::vector, BOOST_MPL_LIMIT_VECTOR_SIZE)
-        <
-          BOOST_PP_ENUM_PARAMS(
-            BOOST_MPL_LIMIT_VECTOR_SIZE,
-            Fragment
-          )
-        >
-      >::type
+      BOOST_PP_CAT(boost::mpl::vector, BOOST_MPL_LIMIT_VECTOR_SIZE)
+      <
+        BOOST_PP_ENUM_PARAMS(
+          BOOST_MPL_LIMIT_VECTOR_SIZE,
+          Fragment
+        )
+      >
     >::type
 {
 };
