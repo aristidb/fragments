@@ -51,7 +51,7 @@ namespace concepts {
           typename boost::mpl::eval_if<
             has_implies<deref>,
             subflatten<deref>,
-            mpl::vector0<>
+            boost::mpl::vector0<>
           >::type
         >::type with_implies;
       typedef typename boost::mpl::insert<

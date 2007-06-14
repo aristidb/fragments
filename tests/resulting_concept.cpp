@@ -1,4 +1,4 @@
-#include <fragments/concepts/flatten.hpp>
+#include <fragments/concepts/resulting_concept.hpp>
 
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/mpl/and.hpp>
@@ -57,58 +57,6 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
         BOOST_PP_STRINGIZE(expect) << '\n';                        \
   }
 
-namespace {
-  struct conceptA { };
-
-  struct conceptiA {
-    typedef boost::mpl::vector1<conceptA> implies;
-  };
-
-  struct conceptiAiA {
-    typedef boost::mpl::vector1<conceptiA> implies;
-  };
-
-  struct concept0 {
-    typedef boost::mpl::vector0< > implies;
-  };
-}
-
 int main() {
-  bool ret = true;
-
-  {
-    typedef boost::mpl::vector1<conceptA> seq;
-    CHECK(fragments::concepts::flatten<seq>::type,
-          boost::mpl::vector1<conceptA>)
-  }
-
-  {
-    typedef boost::mpl::vector1<concept0> seq;
-    CHECK(fragments::concepts::flatten<seq>::type,
-          boost::mpl::vector1<concept0>)
-  }
-
-  {
-    typedef boost::mpl::vector0< > seq;
-    CHECK(fragments::concepts::flatten<seq>::type,
-          seq)
-  }
-
-  {
-    typedef boost::mpl::vector1<conceptiA> seq;
-    typedef boost::mpl::vector2<conceptA, conceptiA> expected;
-    CHECK(fragments::concepts::flatten<seq>::type,
-          expected)
-  }
-
-  {
-    typedef boost::mpl::vector1<conceptiAiA> seq;
-    typedef boost::mpl::vector3<conceptA, conceptiA, conceptiAiA> expected;
-    CHECK(fragments::concepts::flatten<seq>::type,
-          expected)
-  }
-
-  // ...
-
-  return ret ? 0 : 1;
+  // TODO ...
 }

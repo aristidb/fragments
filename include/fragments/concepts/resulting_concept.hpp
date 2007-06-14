@@ -19,10 +19,12 @@
 #define FRAGMENTS_CONCEPTS_RESULTING_CONCEPT_HPP
 
 #include "detail.hpp"
+#include "flatten.hpp"
 
 #include <boost/mpl/insert_range.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/begin_end.hpp>
+#include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/deref.hpp>
