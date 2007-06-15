@@ -20,6 +20,8 @@
 #ifndef FRAGMENTS_COMBINER_HPP
 #define FRAGMENTS_COMBINER_HPP
 
+#include <fragments/detail/reorder.hpp>
+#include <fragments/detail/apply_default_fragments.hpp>
 #include <fragments/detail/find_fragment.hpp>
 #include <fragments/detail/seq_of_elements.hpp>
 #include <fragments/detail/create_vector.hpp>
@@ -32,15 +34,23 @@
 namespace fragments {
 
 namespace detail {
-  template<typename Sequence>
+  template<typename SeqSeq>
   struct combine {
-    typedef typename seq_of_elements<Sequence>::type sequence_;
+    typedef typename seq_of_elements<SeqSeq>::type raw_sequence;
 
     // DIAGNOSIS: fragments::combiner<> needs at least one fragment
-    BOOST_STATIC_ASSERT(!boost::mpl::empty<sequence_>::value);
+    BOOST_STATIC_ASSERT(!boost::mpl::empty<raw_sequence>::value);
 
-    typedef typename create_vector<sequence_>::type sequence;
+    typedef typename apply_default_fragments<
+        raw_sequence
+      >::type complete_sequence;
+
+    typedef typename reorder<complete_sequence>::type ordered_sequence;
+
+    typedef typename create_vector<ordered_sequence>::type sequence;
+
     typedef typename boost::mpl::back<sequence>::type back;
+
     typedef typename find_fragment<sequence, back>::type type;
   };
 }

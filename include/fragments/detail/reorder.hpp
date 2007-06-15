@@ -42,7 +42,7 @@
 #include <boost/static_assert.hpp>
 
 namespace fragments { namespace detail {
-  namespace detail {
+  namespace reorder_detail {
     template<
       typename FragmentSeq,
       typename Concept,
@@ -454,8 +454,12 @@ namespace fragments { namespace detail {
           boost::mpl::insert<boost::mpl::_1, boost::mpl::_2>
         >
       >::type fragments;
-    typedef typename detail::order_graph<FragmentSeq>::type graph;
-    typedef typename detail::reorder<FragmentSeq, fragments, graph>::type type;
+    typedef typename reorder_detail::order_graph<FragmentSeq>::type graph;
+    typedef typename reorder_detail::reorder<
+        FragmentSeq,
+        fragments,
+        graph
+      >::type type;
   };
 }}
 

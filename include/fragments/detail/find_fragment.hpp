@@ -32,7 +32,7 @@ namespace fragments { namespace detail {
   template<
     typename Sequence,
     typename Fragment,
-    typename Before = detail::nada<Sequence>
+    typename Before = nada<Sequence>
   >
   struct find_fragment {
     typedef iterate_fragments<Sequence, Before> it;
