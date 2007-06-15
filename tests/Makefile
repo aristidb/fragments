@@ -68,7 +68,7 @@ clean: dist-clean
 
 .PHONY: dist-clean
 dist-clean:
-	@rm -rf $(DEPS) $(COMPTARGETS)
+	@rm -rf $(DEPS) $(COMPTARGETS) $(NOCOMPTARGETS)
 
 .PHONY: rerun
 rerun: dist-clean all

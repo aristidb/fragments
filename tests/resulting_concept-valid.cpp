@@ -182,20 +182,12 @@ int main() {
     typedef boost::mpl::vector1<fragmentAiA> seq;
     typedef boost::mpl::vector3<conceptA, conceptA, conceptiA> result;
 
-    /*
-      should this be rather vector2<conceptA, conceptiA>?
-     */
-
     CHECK(fragments::concepts::resulting_concept<seq>::type, result)
   }
 
   {
     typedef boost::mpl::vector2<fragmentA, fragmentiA> seq;
     typedef boost::mpl::vector3<conceptA, conceptA, conceptiA> result;
-
-    /*
-      should this be rather vector2<conceptA, conceptiA>?
-     */
 
     CHECK(fragments::concepts::resulting_concept<seq>::type, result)
   }
