@@ -17,7 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/concepts/apply_default_fragments.hpp>
+#include <fragments/detail/apply_default_fragments.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/pair.hpp>
@@ -52,28 +52,28 @@ struct stack {
 int main() {
   {
     typedef mpl::vector1<stack> seq;
-    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    typedef fragments::detail::apply_default_fragments<seq>::type res;
     BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, vector>::value));
   }
   {
     typedef mpl::vector2<stack, list> seq;
-    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    typedef fragments::detail::apply_default_fragments<seq>::type res;
     BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, list>::value));
   }
   {
     typedef mpl::vector2<list, stack> seq;
-    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    typedef fragments::detail::apply_default_fragments<seq>::type res;
     BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, list>::value));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, stack>::value));
   }
   {
     typedef mpl::vector2<stack, vector> seq;
-    typedef fragments::concepts::apply_default_fragments<seq>::type res;
+    typedef fragments::detail::apply_default_fragments<seq>::type res;
     BOOST_STATIC_ASSERT((mpl::size<res>::value == 2));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 0>::type, stack>::value));
     BOOST_STATIC_ASSERT((is_same<mpl::at_c<res, 1>::type, vector>::value));

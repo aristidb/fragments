@@ -17,7 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/concepts/reorder.hpp>
+#include <fragments/detail/reorder.hpp>
 
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/mpl/and.hpp>
@@ -119,7 +119,7 @@ int main() {
     typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
     typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
 
-    CHECK(fragments::concepts::reorder<seq>::type,
+    CHECK(fragments::detail::reorder<seq>::type,
           result)
   }
 
@@ -128,7 +128,7 @@ int main() {
     typedef boost::mpl::vector4<fragment0, fragmentA, fragmentB,
       fragmentC> result;
 
-    CHECK(fragments::concepts::reorder<seq>::type,
+    CHECK(fragments::detail::reorder<seq>::type,
           result)
   }
 
@@ -136,7 +136,7 @@ int main() {
     typedef boost::mpl::vector0< > seq;
     typedef boost::mpl::vector0< > result;
 
-    CHECK(fragments::concepts::reorder<seq>::type,
+    CHECK(fragments::detail::reorder<seq>::type,
           result)
   }
   

@@ -17,7 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/concepts/reorder.hpp>
+#include <fragments/detail/reorder.hpp>
 
 namespace {
   struct conceptA { };
@@ -53,7 +53,7 @@ namespace {
 }
 
 int main() {
-  typedef fragments::concepts::reorder<
+  typedef fragments::detail::reorder<
     boost::mpl::vector3<fragmentC, fragmentA, fragmentB>
       >::type result;
 }

@@ -15,12 +15,12 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_APPLY_DEFAULT_FRAGMENTS_HPP
-#define FRAGMENTS_CONCEPTS_APPLY_DEFUALT_FRAGMENTS_HPP
+#ifndef FRAGMENTS_DETAIL_APPLY_DEFAULT_FRAGMENTS_HPP
+#define FRAGMENTS_DETAIL_APPLY_DEFUALT_FRAGMENTS_HPP
 
-#include "detail/has_require.hpp"
-#include "detail/concat.hpp"
-#include "has_concept.hpp"
+#include "../concepts/detail/has_require.hpp"
+#include "../concepts/detail/concat.hpp"
+#include "../concepts/has_concept.hpp"
 
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/identity.hpp>
@@ -34,13 +34,13 @@
 
 #include <boost/static_assert.hpp>
 
-namespace fragments { namespace concepts {
+namespace fragments { namespace detail {
   namespace detail {
     BOOST_MPL_HAS_XXX_TRAIT_DEF(default_fragment)
 
     template<
       typename Fragment,
-      bool has = has_require_before<Fragment>::value
+      bool has = concepts::detail::has_require_before<Fragment>::value
     >
     struct get_requirements_before {
       typedef typename Fragment::require_before type;
@@ -53,7 +53,7 @@ namespace fragments { namespace concepts {
 
     template<
       typename Fragment,
-      bool has = has_require_after<Fragment>::value
+      bool has = concepts::detail::has_require_after<Fragment>::value
     >
     struct get_requirements_after {
       typedef typename Fragment::require_after type;
@@ -66,7 +66,7 @@ namespace fragments { namespace concepts {
 
     template<
       typename Fragment,
-      bool has = has_require<Fragment>::value
+      bool has = concepts::detail::has_require<Fragment>::value
     >
     struct get_requirements {
       typedef typename Fragment::require type;
@@ -123,7 +123,7 @@ namespace fragments { namespace concepts {
         FragmentSeq
       >::type next_default;
       typedef typename boost::mpl::eval_if<
-        has_concept<
+        concepts::has_concept<
           FragmentSeq,
           requirement
         >,
@@ -155,15 +155,15 @@ namespace fragments { namespace concepts {
     struct apply_default_fragments {
       typedef typename boost::mpl::at_c<FragmentSeq, i>::type fragment;
 
-      typedef typename concat<
+      typedef typename concepts::detail::concat<
         typename get_requirements_before<fragment>::type,
-        typename concat<
+        typename concepts::detail::concat<
           typename get_requirements_after<fragment>::type,
           typename get_requirements<fragment>::type
         >::type
       >::type requirements;
 
-      typedef typename concat<
+      typedef typename concepts::detail::concat<
         FragmentSeq,
         typename match_or_apply_default_fragment<
           fragment,

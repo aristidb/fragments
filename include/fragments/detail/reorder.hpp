@@ -17,11 +17,11 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#ifndef FRAGMENTS_CONCEPTS_REORDER_HPP
-#define FRAGMENTS_CONCEPTS_REORDER_HPP
+#ifndef FRAGMENTS_DETAIL_REORDER_HPP
+#define FRAGMENTS_DETAIL_REORDER_HPP
 
-#include "detail/has_require.hpp"
-#include "supports_concept.hpp"
+#include "../concepts/detail/has_require.hpp"
+#include "../concepts/supports_concept.hpp"
 
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/next_prior.hpp>
@@ -41,7 +41,7 @@
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 
-namespace fragments { namespace concepts {
+namespace fragments { namespace detail {
   namespace detail {
     template<
       typename FragmentSeq,
@@ -53,7 +53,7 @@ namespace fragments { namespace concepts {
           FragmentSeq
          >::type front;
       typedef typename boost::mpl::eval_if<
-          supports_concept<front, Concept>,
+          concepts::supports_concept<front, Concept>,
           boost::mpl::identity<front>,
           get_matching_fragment<
             typename boost::mpl::pop_front<
@@ -142,7 +142,8 @@ namespace fragments { namespace concepts {
       typename FragmentSeq,
       typename Fragment,
       typename Graph,
-      bool has_require_before = has_require_before<Fragment>::value
+      bool has_require_before =
+        concepts::detail::has_require_before<Fragment>::value
     >
     struct fragment_graph_before {
       typedef typename fragment_graph<
@@ -163,7 +164,8 @@ namespace fragments { namespace concepts {
       typename FragmentSeq,
       typename Fragment,
       typename Graph,
-      bool has_require_after = has_require_after<Fragment>::value
+      bool has_require_after =
+        concepts::detail::has_require_after<Fragment>::value
     >
     struct fragment_graph_after {
       typedef typename fragment_graph<
