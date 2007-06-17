@@ -23,6 +23,7 @@
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/vector.hpp>
 #include <iostream>
+#include <typeinfo>
 
 template<typename SeqA,
          typename SeqB,
@@ -67,7 +68,8 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
     if(!b)                                                         \
       std::cerr << __FILE__ ":" BOOST_PP_STRINGIZE(__LINE__) ":"   \
         " FAILED: " BOOST_PP_STRINGIZE(X) " not equaivalent to "   \
-        BOOST_PP_STRINGIZE(expect) << '\n';                        \
+        BOOST_PP_STRINGIZE(expect) << '\n'                         \
+                << "_Z10unexpected" << typeid(X).name() << '\n';    \
   }
 
 namespace {
@@ -116,6 +118,7 @@ int main() {
   bool ret = true;
 
   {
+    // order requested by requirements
     typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
     typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
 
@@ -124,15 +127,20 @@ int main() {
   }
 
   {
-    typedef boost::mpl::vector4<fragmentC, fragmentA, fragment0, fragmentB> seq;
-    typedef boost::mpl::vector4<fragment0, fragmentA, fragmentB,
-      fragmentC> result;
+    // order kept as was when not changed according to requirements
+    typedef boost::mpl::vector4<
+        fragmentC, fragmentA, fragment0, fragmentB
+      > seq;
+    typedef boost::mpl::vector4<
+        fragmentA, fragment0, fragmentB, fragmentC
+      > result;
 
     CHECK(fragments::detail::reorder<seq>::type,
           result)
   }
 
   {
+    // empty...
     typedef boost::mpl::vector0< > seq;
     typedef boost::mpl::vector0< > result;
 

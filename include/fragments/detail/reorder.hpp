@@ -20,9 +20,9 @@
 #ifndef FRAGMENTS_DETAIL_REORDER_HPP
 #define FRAGMENTS_DETAIL_REORDER_HPP
 
-#include "../concepts/detail/has_require.hpp"
-#include "../concepts/supports_concept.hpp"
-
+#include <fragments/concepts/detail/has_require.hpp>
+#include <fragments/concepts/supports_concept.hpp>
+#include <fragments/detail/create_vector.hpp>//TODO: remove
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/erase_key.hpp>
@@ -38,6 +38,7 @@
 #include <boost/mpl/set.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/if.hpp>
+#include <boost/mpl/remove.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 
@@ -339,31 +340,6 @@ namespace fragments { namespace detail {
     };
 
     template<
-      typename Set,
-      typename Result = boost::mpl::set0<>,
-      typename First = typename boost::mpl::begin<Set>::type,
-      typename Last = typename boost::mpl::end<Set>::type
-    >
-    struct clean_set {
-      typedef typename boost::mpl::deref<First>::type key;
-      typedef typename clean_set<
-          Set,
-          typename boost::mpl::eval_if<
-            boost::mpl::has_key<Result, key>,
-            boost::mpl::identity<Result>,
-            boost::mpl::insert<Result, key>
-          >::type,
-          typename boost::mpl::next<First>::type,
-          Last
-        >::type type;
-    };
-
-    template<typename Set, typename Result, typename End>
-    struct clean_set<Set, Result, End, End> {
-      typedef Result type;
-    };
-
-    template<
       typename FragmentSeq,
       typename Fragments,
       typename Graph,
@@ -401,11 +377,9 @@ namespace fragments { namespace detail {
         >::type next_graph;
       typedef typename reorder<
           FragmentSeq,
-          typename clean_set<
-            typename boost::mpl::erase_key<
-              Fragments,
-              N
-            >::type
+          typename boost::mpl::remove<
+            Fragments,
+            N
           >::type,
           next_graph,
           next
@@ -436,7 +410,7 @@ namespace fragments { namespace detail {
           typename boost::mpl::end<Graph>::type
         >::value
       ));
-      typedef Result type;
+      typedef typename create_vector<Result>::type type;
     };
   }
 
@@ -457,7 +431,7 @@ namespace fragments { namespace detail {
     typedef typename reorder_detail::order_graph<FragmentSeq>::type graph;
     typedef typename reorder_detail::reorder<
         FragmentSeq,
-        fragments,
+        FragmentSeq,
         graph
       >::type type;
   };
