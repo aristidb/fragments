@@ -22,7 +22,6 @@
 
 #include <fragments/concepts/detail/has_require.hpp>
 #include <fragments/concepts/supports_concept.hpp>
-#include <fragments/detail/create_vector.hpp>//TODO: remove
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/erase_key.hpp>
@@ -410,7 +409,7 @@ namespace fragments { namespace detail {
           typename boost::mpl::end<Graph>::type
         >::value
       ));
-      typedef typename create_vector<Result>::type type;
+      typedef Result type;
     };
   }
 
