@@ -122,6 +122,10 @@ namespace fragments { namespace detail {
       typedef typename get_matching_fragments<
           FragmentSeq,
           concept
+        >::type matching_fragments_incl;
+      typedef typename boost::mpl::remove<
+          matching_fragments_incl,
+          Fragment
         >::type matching_fragments;
       typedef typename boost::mpl::transform<
           matching_fragments,
