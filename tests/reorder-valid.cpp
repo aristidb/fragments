@@ -79,7 +79,7 @@ namespace {
 
   struct fragmentA {
     template<typename Before, typename After>
-    struct fragment : public Before { };
+    struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
 
@@ -88,7 +88,7 @@ namespace {
 
   struct fragmentB {
     template<typename Before, typename After>
-    struct fragment : public Before { };
+    struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptB> concept;
 
@@ -98,7 +98,7 @@ namespace {
 
   struct fragmentC {
     template<typename Before, typename After>
-    struct fragment : public Before { };
+    struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptC> concept;
 
@@ -108,9 +108,18 @@ namespace {
 
   struct fragment0 {
     template<typename Before, typename After>
-    struct fragment : public Before { };
+    struct fragment : Before { };
     
     typedef boost::mpl::vector0< > concept;
+  };
+
+  struct fragmentA2 {
+    template<typename Before, typename After>
+    struct fragment : Before { };
+
+    typedef boost::mpl::vector1<conceptA> concept;
+
+    typedef boost::mpl::vector1<conceptA> require_after;
   };
 }
 
@@ -122,8 +131,7 @@ int main() {
     typedef boost::mpl::vector3<fragmentC, fragmentA, fragmentB> seq;
     typedef boost::mpl::vector3<fragmentA, fragmentB, fragmentC> result;
 
-    CHECK(fragments::detail::reorder<seq>::type,
-          result)
+    CHECK(fragments::detail::reorder<seq>::type, result)
   }
 
   {
@@ -135,8 +143,7 @@ int main() {
         fragmentA, fragment0, fragmentB, fragmentC
       > result;
 
-    CHECK(fragments::detail::reorder<seq>::type,
-          result)
+    CHECK(fragments::detail::reorder<seq>::type, result)
   }
 
   {
@@ -147,6 +154,28 @@ int main() {
     CHECK(fragments::detail::reorder<seq>::type,
           result)
   }
-  
+
+  {
+    typedef boost::mpl::vector4<
+        fragmentC, fragmentA, fragmentA2, fragmentB
+      > seq;
+    typedef boost::mpl::vector4<
+        fragmentA2, fragmentA, fragmentB, fragmentC
+      > result;
+
+    CHECK(fragments::detail::reorder<seq>::type, result);
+  }
+
+  {
+    typedef boost::mpl::vector4<
+        fragmentC, fragmentA2, fragmentB, fragmentA
+      > seq;
+    typedef boost::mpl::vector4<
+        fragmentA2, fragmentA, fragmentB, fragmentC
+      > result;
+
+    CHECK(fragments::detail::reorder<seq>::type, result);
+  }
+
   return ret ? 0 : 1;
 }
