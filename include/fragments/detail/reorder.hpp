@@ -39,6 +39,7 @@
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/remove.hpp>
 #include <boost/mpl/transform.hpp>
+#include <boost/mpl/logical.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 
@@ -70,7 +71,7 @@ namespace fragments { namespace detail {
     struct get_matching_fragments<FragmentSeq, Concept, Result, true> {
 
       // DIAGNOSIS: required fragment missing
-      BOOST_STATIC_ASSERT((!boost::mpl::empty::empty<Result>::value));
+      BOOST_STATIC_ASSERT((!boost::mpl::empty<Result>::value));
 
       typedef Result type;
     };
@@ -94,7 +95,7 @@ namespace fragments { namespace detail {
           real_pair
         >::type graph;
       typedef typename insert_pairs<
-          typename boost::mpl::next<First>,
+          typename boost::mpl::next<First>::type,
           Last,
           graph
         >::type type;
@@ -430,9 +431,7 @@ namespace fragments { namespace detail {
             Graph,
             boost::mpl::not_<
               boost::mpl::empty<
-                boost::mpl::second<
-                  boost::mpl::_1
-                >
+                boost::mpl::second<boost::mpl::_1>
               >
             >
           >::type,

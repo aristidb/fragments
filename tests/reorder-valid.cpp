@@ -72,7 +72,6 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
                 << "_Z10unexpected" << typeid(X).name() << '\n';    \
   }
 
-namespace {
   struct conceptA { };
   struct conceptB { };
   struct conceptC { };
@@ -121,7 +120,6 @@ namespace {
 
     typedef boost::mpl::vector1<conceptA> require_after;
   };
-}
 
 int main() {
   bool ret = true;
