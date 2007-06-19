@@ -38,6 +38,7 @@
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/remove.hpp>
+#include <boost/mpl/transform.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 
@@ -46,50 +47,41 @@ namespace fragments { namespace detail {
     template<
       typename FragmentSeq,
       typename Concept,
+      typename Result = boost::mpl::vector0<>,
       bool no_fragments_left = boost::mpl::empty<FragmentSeq>::value
     >
-    struct get_matching_fragment {
+    struct get_matching_fragments {
       typedef typename boost::mpl::front<
           FragmentSeq
          >::type front;
-      typedef typename boost::mpl::eval_if<
+      typedef typename boost::mpl::if_<
           concepts::supports_concept<front, Concept>,
-          boost::mpl::identity<front>,
-          get_matching_fragment<
-            typename boost::mpl::pop_front<
-              FragmentSeq
-            >::type,
-            Concept
-          >
+          typename boost::mpl::push_back<Result, front>::type,
+          Result
+        >::type next;
+      typedef typename get_matching_fragments<
+          typename boost::mpl::pop_front<FragmentSeq>::type,
+          Concept,
+          next
         >::type type;
     };
 
-    template<
-      typename FragmentSeq,
-      typename Concept
-    >
-    struct get_matching_fragment<
-      FragmentSeq,
-      Concept,
-      true
-    >;
+    template<typename FragmentSeq, typename Concept, typename Result>
+    struct get_matching_fragments<FragmentSeq, Concept, Result, true> {
+
+      // DIAGNOSIS: required fragment missing
+      BOOST_STATIC_ASSERT((!boost::mpl::empty::empty<Result>::value));
+
+      typedef Result type;
+    };
 
     template<
-      typename Requirements,
-      typename FragmentSeq,
-      typename Fragment,
-      typename Graph,
-      template<typename, typename> class PairMaker,
-      bool no_requirements_left = boost::mpl::empty<Requirements>::value
+      typename First,
+      typename Last,
+      typename Graph
     >
-    struct fragment_graph {
-      typedef typename PairMaker<
-          Fragment,
-          typename get_matching_fragment<
-            FragmentSeq,
-            typename boost::mpl::front<Requirements>::type
-          >::type
-        >::type pair;
+    struct insert_pairs {
+      typedef typename boost::mpl::deref<First>::type pair;
       typedef boost::mpl::pair<
           typename pair::first,
           typename boost::mpl::insert<
@@ -100,6 +92,44 @@ namespace fragments { namespace detail {
       typedef typename boost::mpl::insert<
           Graph,
           real_pair
+        >::type graph;
+      typedef typename insert_pairs<
+          typename boost::mpl::next<First>,
+          Last,
+          graph
+        >::type type;
+    };
+
+    template<
+      typename End,
+      typename Graph
+    >
+    struct insert_pairs<End, End, Graph> {
+      typedef Graph type;
+    };
+
+    template<
+      typename Requirements,
+      typename FragmentSeq,
+      typename Fragment,
+      typename Graph,
+      template<typename, typename> class PairMaker,
+      bool no_requirements_left = boost::mpl::empty<Requirements>::value
+    >
+    struct fragment_graph {
+      typedef typename boost::mpl::front<Requirements>::type concept;
+      typedef typename get_matching_fragments<
+          FragmentSeq,
+          concept
+        >::type matching_fragments;
+      typedef typename boost::mpl::transform<
+          matching_fragments,
+          PairMaker<Fragment, boost::mpl::_1>
+        >::type pairs;
+      typedef typename insert_pairs<
+          typename boost::mpl::begin<pairs>::type,
+          typename boost::mpl::end<pairs>::type,
+          Graph
         >::type graph;
       typedef typename fragment_graph<
           typename boost::mpl::pop_front<Requirements>::type,
