@@ -29,27 +29,29 @@ namespace fragments { namespace parameters {
 
 template<typename T>
 struct fold1 {
+  typedef boost::tuples::cons<
+      T const &,
+      boost::tuples::null_type
+    > cons;
   typedef add<
       positional,
-      boost::tuples::cons<
-        T const &,
-        boost::tuples::null_type
-      >
+      cons
     > type;
 
   static type fold(T const &x) {
-    return x;
+    return cons(x);
   }
 };
 
 template<typename T>
 struct fold1<boost::reference_wrapper<T> > {
+  typedef boost::tuples::cons<
+      T &,
+      boost::tuples::null_type
+    > cons;
   typedef add<
       positional,
-      boost::tuples::cons<
-        T &,
-        boost::tuples::null_type
-      >
+      cons
     > type;
 
   static type fold(boost::reference_wrapper<T> x) {

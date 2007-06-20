@@ -117,6 +117,32 @@ struct fold2<boost::reference_wrapper<T>, add<Key, Value, Base> > {
   }
 };
 
+template<
+  typename Key1,
+  typename Value1,
+  typename Key2,
+  typename Value2,
+  typename Base
+>
+struct fold2<keyed_value<Key1, Value1>, add<Key2, Value2, Base> > {
+  typedef add<
+      Key1,
+      Value1,
+      add<
+        Key2,
+        Value2,
+        Base
+      >
+    > type;
+
+  static type fold(
+      keyed_value<Key1, Value1> const &x,
+      add<Key2, Value2, Base> const &y)
+  {
+    return type(x.get(), y);
+  }
+};
+
 }}
 
 #endif
