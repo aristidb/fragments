@@ -17,26 +17,22 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/parameters/container.hpp>
-#include <fragments/parameters/key.hpp>
+#ifndef FRAGMENTS_PARAMETERS_KEYED_VALUE_HPP
+#define FRAGMENTS_PARAMETERS_KEYED_VALUE_HPP
 
-using namespace fragments::parameters;
+namespace fragments { namespace parameters {
 
-FRAGMENTS_PARAMETERS_KEY(k1)
+template<typename Key, typename Value>
+class keyed_value {
+public:
+  keyed_value(Value const &x) : value(x) {}
 
-int main() {
-  typedef add<int, int> t1;
-  t1 x1(4);
-  typedef add<char, int, t1> t2;
-  t2 x2(7,x1);
+  Value get() const { return value; }
 
-  if (getter<t2, int>::get(x2) != 4)
-    return 1;
-  if (getter<t2, char>::get(x2) != 7)
-    return 1;
+private:
+  Value value;
+};
 
-  if ((k1() = 4).get() != 4)
-    return 1;
+}}
 
-  return 0;
-}
+#endif

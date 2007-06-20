@@ -17,26 +17,37 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/parameters/container.hpp>
-#include <fragments/parameters/key.hpp>
+#ifndef FRAGMENTS_PARAMETERS_KEY_HPP
+#define FRAGMENTS_PARAMETERS_KEY_HPP
 
-using namespace fragments::parameters;
+#include <fragments/parameters/keyed_value.hpp>
+#include <boost/ref.hpp>
 
-FRAGMENTS_PARAMETERS_KEY(k1)
+namespace fragments { namespace parameters {
 
-int main() {
-  typedef add<int, int> t1;
-  t1 x1(4);
-  typedef add<char, int, t1> t2;
-  t2 x2(7,x1);
+template<typename Key>
+struct key {
+  template<typename Value>
+  keyed_value<Key, boost::reference_wrapper<Value const> >
+  operator=(Value const &x) const {
+    return keyed_value<Key, boost::reference_wrapper<Value const> >
+      (boost::cref(x));
+  }
 
-  if (getter<t2, int>::get(x2) != 4)
-    return 1;
-  if (getter<t2, char>::get(x2) != 7)
-    return 1;
+  template<typename Value>
+  keyed_value<Key, boost::reference_wrapper<Value> >
+  operator=(boost::reference_wrapper<Value> x) const {
+    return keyed_value<Key, boost::reference_wrapper<Value> >
+      (x);
+  }
+};
 
-  if ((k1() = 4).get() != 4)
-    return 1;
+#define FRAGMENTS_PARAMETERS_KEY(name) \
+  struct name : ::fragments::parameters::key<name> { \
+    using ::fragments::parameters::key<name>::operator=; \
+  }; \
+  /**/
 
-  return 0;
-}
+}}
+
+#endif
