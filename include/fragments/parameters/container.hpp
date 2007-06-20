@@ -23,51 +23,53 @@
 namespace fragments { namespace parameters {
 
 struct empty {
-  template<typename Key>
-  struct value_type;
 };
 
 template<typename Key, typename Value, typename Base = empty>
 class add : public Base {
 public:
-  add(Value const &v) : value(v) {}
+  add(Value const &v, Base const &b = Base()) : Base(b), value(v) {}
 
-  template<typename K>
-  struct value_type {
-    typedef typename Base::template value_type<K>::type type;
-  };
-
-  template<>
-  struct value_type<Key> {
-    typedef Value type;
-  };
-
-  template<typename K>
-  typename value_type<K>::type &
-  get() {
-    return Base::get<K>();
-  }
-
-  template<>
-  Value &
-  get<Key>() {
-    return value;
-  }
-
-  template<typename K>
-  typename value_type<K>::type const &
-  get() const {
-    return Base::get<K>();
-  }
-
-  template<>
-  Value const &
-  get<K>() const {
+  Value top() const {
     return value;
   }
 
 private:
   Value value;
+};
+
+template<typename T, typename Key>
+struct value_type;
+
+template<typename Key1, typename Key2, typename Value, typename Base>
+struct value_type<add<Key1, Value, Base>, Key2> {
+  typedef typename value_type<Base, Key2>::type type;
+};
+
+template<typename Key, typename Value, typename Base>
+struct value_type<add<Key, Value, Base>, Key> {
+  typedef Value type;
+};
+
+template<typename T, typename Key>
+struct getter;
+
+template<typename Key1, typename Key2, typename Value, typename Base>
+struct getter<add<Key1, Value, Base>, Key2> {
+  static
+  typename value_type<Base, Key2>::type
+  get(Base const &x) {
+    return getter<Base, Key2>::get(x);
+  }
+};
+
+template<typename Key, typename Value, typename Base>
+struct getter<add<Key, Value, Base>, Key> {
+  static
+  Value
+  get(add<Key, Value, Base> const &x) {
+    return x.top();
+  }
 };
 
 }}
