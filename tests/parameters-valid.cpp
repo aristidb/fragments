@@ -17,6 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
+#include <fragments/parameters/fold2.hpp>
 #include <fragments/parameters/container.hpp>
 #include <fragments/parameters/key.hpp>
 
@@ -36,6 +37,15 @@ int main() {
     return 1;
 
   if ((k1() = 4).get() != 4)
+    return 1;
+
+  typedef fold2<keyed_value<k1, boost::reference_wrapper<int const> >, int> f;
+  f::type z = f::fold(k1() = 1, 2);
+
+  if (getter<f::type, k1>::get(z) != 1)
+    return 1;
+
+  if (getter<f::type, positional>::get(z).get<0>() != 2)
     return 1;
 
   return 0;

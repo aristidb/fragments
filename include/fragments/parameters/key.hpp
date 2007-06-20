@@ -48,6 +48,8 @@ struct key {
   }; \
   /**/
 
+FRAGMENTS_PARAMETERS_KEY(positional)
+
 }}
 
 #endif
