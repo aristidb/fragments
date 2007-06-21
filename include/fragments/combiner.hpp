@@ -66,14 +66,16 @@ template<
 struct combiner
   : detail::combine<
       BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)
-      <
-        BOOST_PP_ENUM_PARAMS(
-          FRAGMENTS_LIMIT,
-          Fragment
-        )
-      >
+      < BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, Fragment) >
     >::type
 {
+  typedef typename detail::combine<
+      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)
+      < BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, Fragment) >
+    >::type base;
+
+  // DIAGNOSIS: topmost fragment fails to propagate "fragments" definition
+  typedef typename base::fragments fragments;
 };
 
 }
