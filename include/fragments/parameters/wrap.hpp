@@ -43,6 +43,11 @@ public:
     return add<K, V, T>(v, wrapped);
   }
 
+  template<typename K, typename V>
+  struct set_f {
+    typedef wrap<add<K, V, T> > type;
+  };
+
 private:
   T wrapped;
 };
