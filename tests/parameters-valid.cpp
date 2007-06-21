@@ -17,6 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
+#include <fragments/parameters/wrap.hpp>
 #include <fragments/parameters/foldN.hpp>
 #include <fragments/parameters/container.hpp>
 #include <fragments/parameters/key.hpp>
@@ -41,9 +42,11 @@ int main() {
       return 1;
   }
 
+  int a[5] = { 0, 1, 2, 3, 4 };
+
   {
     typedef fold2<keyed_value<k1, boost::reference_wrapper<int const> >, int> f;
-    f::type z = f::fold(k1() = 1, 2);
+    f::type z = f::fold(k1() = a[1], a[2]);
 
     if (getter<f::type, k1>::get(z) != 1)
       return 1;
@@ -54,11 +57,11 @@ int main() {
 
   {
     typedef fold5<int, int, int, int, int> f;
-    f::type z = f::fold(0, 1, 2, 3, 4);
+    f::type z = f::fold(a[0], a[1], a[2], a[3], a[4]);
 
     if (getter<f::type, positional>::get(z).get<3>() != 3)
       return 1;
-   }
+  }
 
   {
     typedef fold6<
@@ -69,11 +72,14 @@ int main() {
         int,
         int
       > f;
-    f::type z = f::fold(0, 1, k1() = "", 2, 3, 4);
+    f::type z = f::fold(a[0], a[1], k1() = "", a[2], a[3], a[4]);
 
     if (getter<f::type, positional>::get(z).get<3>() != 3)
       return 1;
-   }
+  }
+
+  if (wrap<empty>().set<k1>(7).get<k1>() != 7)
+    return 1;
 
   return 0;
 }
