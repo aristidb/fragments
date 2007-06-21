@@ -60,5 +60,20 @@ int main() {
       return 1;
    }
 
+  {
+    typedef fold6<
+        int,
+        int,
+        keyed_value<k1, boost::reference_wrapper<char const [1]> >,
+        int,
+        int,
+        int
+      > f;
+    f::type z = f::fold(0, 1, k1() = "", 2, 3, 4);
+
+    if (getter<f::type, positional>::get(z).get<3>() != 3)
+      return 1;
+   }
+
   return 0;
 }
