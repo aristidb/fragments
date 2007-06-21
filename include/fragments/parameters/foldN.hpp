@@ -40,7 +40,7 @@ namespace fragments { namespace parameters {
       > folder; \
     typedef typename folder::type type; \
     static type fold( \
-        BOOST_PP_ENUM_BINARY_PARAMS(n, T, x) \
+        BOOST_PP_ENUM_BINARY_PARAMS(n, T, const &x) \
       ) \
     { \
       return folder::fold( \
