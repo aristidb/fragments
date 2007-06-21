@@ -61,7 +61,14 @@ struct fold1<boost::reference_wrapper<T> > {
 
 template<typename Key, typename Value>
 struct fold1<keyed_value<Key, Value> > {
-  typedef add<Key, Value> type;
+  typedef add<
+      Key,
+      Value,
+      add<
+        positional,
+        boost::tuples::null_type
+      >
+    > type;
 
   static type fold(keyed_value<Key, Value> const &x) {
     return x.get();

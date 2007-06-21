@@ -17,7 +17,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <fragments/parameters/fold2.hpp>
+#include <fragments/parameters/foldN.hpp>
 #include <fragments/parameters/container.hpp>
 #include <fragments/parameters/key.hpp>
 
@@ -26,27 +26,39 @@ using namespace fragments::parameters;
 FRAGMENTS_PARAMETERS_KEY(k1)
 
 int main() {
-  typedef add<int, int> t1;
-  t1 x1(4);
-  typedef add<char, int, t1> t2;
-  t2 x2(7,x1);
+  {
+    typedef add<int, int> t1;
+    t1 x1(4);
+    typedef add<char, int, t1> t2;
+    t2 x2(7,x1);
 
-  if (getter<t2, int>::get(x2) != 4)
-    return 1;
-  if (getter<t2, char>::get(x2) != 7)
-    return 1;
+    if (getter<t2, int>::get(x2) != 4)
+      return 1;
+    if (getter<t2, char>::get(x2) != 7)
+      return 1;
 
-  if ((k1() = 4).get() != 4)
-    return 1;
+    if ((k1() = 4).get() != 4)
+      return 1;
+  }
 
-  typedef fold2<keyed_value<k1, boost::reference_wrapper<int const> >, int> f;
-  f::type z = f::fold(k1() = 1, 2);
+  {
+    typedef fold2<keyed_value<k1, boost::reference_wrapper<int const> >, int> f;
+    f::type z = f::fold(k1() = 1, 2);
 
-  if (getter<f::type, k1>::get(z) != 1)
-    return 1;
+    if (getter<f::type, k1>::get(z) != 1)
+      return 1;
 
-  if (getter<f::type, positional>::get(z).get<0>() != 2)
-    return 1;
+    if (getter<f::type, positional>::get(z).get<0>() != 2)
+      return 1;
+  }
+
+  {
+    typedef fold5<int, int, int, int, int> f;
+    f::type z = f::fold(0, 1, 2, 3, 4);
+
+    if (getter<f::type, positional>::get(z).get<3>() != 3)
+      return 1;
+   }
 
   return 0;
 }

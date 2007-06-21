@@ -20,6 +20,7 @@
 #ifndef FRAGMENTS_COMBINER_HPP
 #define FRAGMENTS_COMBINER_HPP
 
+#include <fragments/config.hpp>
 #include <fragments/detail/reorder.hpp>
 #include <fragments/detail/apply_default_fragments.hpp>
 #include <fragments/detail/find_fragment.hpp>
@@ -57,17 +58,17 @@ namespace detail {
 
 template<
   BOOST_PP_ENUM_BINARY_PARAMS(
-    BOOST_MPL_LIMIT_VECTOR_SIZE,
+    FRAGMENTS_LIMIT,
     typename Fragment,
     = boost::mpl::vector0<> BOOST_PP_INTERCEPT
   )
 >
 struct combiner
   : detail::combine<
-      BOOST_PP_CAT(boost::mpl::vector, BOOST_MPL_LIMIT_VECTOR_SIZE)
+      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)
       <
         BOOST_PP_ENUM_PARAMS(
-          BOOST_MPL_LIMIT_VECTOR_SIZE,
+          FRAGMENTS_LIMIT,
           Fragment
         )
       >
