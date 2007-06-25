@@ -21,6 +21,7 @@
 #define FRAGMENTS_COMBINER_HPP
 
 #include <fragments/config.hpp>
+#include <fragments/parameters/fold_wrap.hpp>
 #include <fragments/detail/reorder.hpp>
 #include <fragments/detail/apply_default_fragments.hpp>
 #include <fragments/detail/find_fragment.hpp>
@@ -92,6 +93,24 @@ struct combiner
 
   // DIAGNOSIS: topmost fragment fails to propagate "access" definition
   typedef typename base::access access;
+
+  combiner() {}
+
+#define FRAGMENTS_COMBINER_CONSTRUCTOR(z, n, t) \
+  template<BOOST_PP_ENUM_PARAMS(n, typename T)> \
+  combiner(BOOST_PP_ENUM_BINARY_PARAMS(n, T, const &x)) \
+    : base(parameters::fold_wrap(BOOST_PP_ENUM_PARAMS(n, x))) \
+  {} \
+  /**/
+
+  BOOST_PP_REPEAT_FROM_TO(
+    1,
+    BOOST_PP_INC(FRAGMENTS_LIMIT),
+    FRAGMENTS_COMBINER_CONSTRUCTOR,
+    ~
+  )
+
+#undef FRAGMENTS_COMBINER_CONSTRUCTOR
 };
 
 namespace detail {
