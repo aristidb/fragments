@@ -21,10 +21,24 @@
 #include <fragments/parameters/foldN.hpp>
 #include <fragments/parameters/container.hpp>
 #include <fragments/parameters/key.hpp>
+#include <fragments/combiner.hpp>
 
 using namespace fragments::parameters;
 
 FRAGMENTS_PARAMETERS_KEY(k1)
+
+struct frag {
+  typedef boost::mpl::vector0<> concept;
+
+  template<typename Before, typename>
+  struct fragment : Before {
+    template<typename Pack>
+    fragment(Pack const &p) {
+      int &out = p.template get<positional>().template get<0>();
+      out = p.template get<k1>();
+    }
+  };
+};
 
 int main() {
   {
@@ -80,6 +94,13 @@ int main() {
 
   if (wrap<empty>().set<k1>(7).get<k1>() != 7)
     return 1;
+
+  {
+    int v = 0;
+    fragments::combiner<frag> x(boost::ref(v), k1() = 666);
+    if (v != 666)
+      return 1;
+  }
 
   return 0;
 }
