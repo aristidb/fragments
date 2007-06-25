@@ -28,7 +28,8 @@ struct empty {
 template<typename Key, typename Value, typename Base = empty>
 class add : public Base {
 public:
-  add(Value const &v, Base const &b = Base()) : Base(b), value(v) {}
+  add(Value const &v = Value(), Base const &b = Base())
+    : Base(b), value(v) {}
 
   Value top() const {
     return value;

@@ -97,7 +97,7 @@ struct fold2<boost::reference_wrapper<T>, add<Key, Value, Base> > {
   typedef add<
       positional,
       boost::tuples::cons<
-        T const &,
+        T &,
         typename value_type<
           add<Key, Value, Base>,
           positional
