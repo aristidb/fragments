@@ -24,20 +24,27 @@
 
 namespace fragments {
 
-template<typename T, typename H>
-typename detail::find_fragment<typename H::fragments, T>::type &
-as_fragment(H &c) {
-  return *static_cast<
-      typename detail::find_fragment<typename H::fragments, T>::type *
-    >(&c);
+namespace detail {
+  template<typename T, typename H>
+  struct as_fragment_t {
+    typedef typename find_fragment<
+        typename H::access::fragments,
+        T,
+        typename H::access::root
+      >::type type;
+  };
 }
 
 template<typename T, typename H>
-typename detail::find_fragment<typename H::fragments, T>::type const &
+typename detail::as_fragment_t<T, H>::type &
+as_fragment(H &c) {
+  return *static_cast<typename detail::as_fragment_t<T, H>::type *>(&c);
+}
+
+template<typename T, typename H>
+typename detail::as_fragment_t<T, H>::type const &
 as_fragment(H const &c) {
-  return *static_cast<
-      typename detail::find_fragment<typename H::fragments, T>::type const *
-    >(&c);
+  return *static_cast<typename detail::as_fragment_t<T, H>::type const *>(&c);
 }
 
 }

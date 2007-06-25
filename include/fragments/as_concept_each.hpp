@@ -50,13 +50,19 @@ namespace detail {
 
 template<typename C, typename H, typename F>
 void as_concept_each(H &h, F fun) {
-  typedef typename filter_concept_lazy<typename H::fragments, C>::type filtered;
+  typedef typename filter_concept_lazy<
+      typename H::access::fragments,
+      C
+    >::type filtered;
   boost::mpl::for_each<filtered>(detail::make_invoker(&h, fun));
 }
 
 template<typename C, typename H, typename F>
 void as_concept_each(H const &h, F fun) {
-  typedef typename filter_concept_lazy<typename H::fragments, C>::type filtered;
+  typedef typename filter_concept_lazy<
+      typename H::access::fragments,
+      C
+    >::type filtered;
   boost::mpl::for_each<filtered>(detail::make_invoker(&h, fun));
 }
 

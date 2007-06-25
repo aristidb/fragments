@@ -35,8 +35,11 @@
 namespace fragments {
 
 namespace detail {
-  template<typename SeqSeq>
-  struct combine {
+  template<typename Seq, typename Derived>
+  struct combiner_base;
+
+  template<typename SeqSeq, typename Derived>
+  class combine {
     typedef typename seq_of_elements<SeqSeq>::type raw_sequence;
 
     // DIAGNOSIS: fragments::combiner<> needs at least one fragment
@@ -52,31 +55,55 @@ namespace detail {
 
     typedef typename boost::mpl::back<sequence>::type back;
 
-    typedef typename find_fragment<sequence, back>::type type;
+  public:
+    typedef typename find_fragment<
+        sequence,
+        back,
+        combiner_base<sequence, Derived>
+      >::type type;
   };
 }
 
 template<
   BOOST_PP_ENUM_BINARY_PARAMS(
     FRAGMENTS_LIMIT,
-    typename Fragment,
+    typename F,
     = boost::mpl::vector0<> BOOST_PP_INTERCEPT
   )
 >
 struct combiner
   : detail::combine<
-      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)
-      < BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, Fragment) >
+      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
+        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+      >,
+      combiner<
+        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+      >
     >::type
 {
   typedef typename detail::combine<
-      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)
-      < BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, Fragment) >
+      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
+        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+      >,
+      combiner<
+        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+      >
     >::type base;
 
-  // DIAGNOSIS: topmost fragment fails to propagate "fragments" definition
-  typedef typename base::fragments fragments;
+  // DIAGNOSIS: topmost fragment fails to propagate "access" definition
+  typedef typename base::access access;
 };
+
+namespace detail {
+  template<typename Seq, typename Derived>
+  struct combiner_base {
+    struct access {
+      typedef Seq fragments;
+      typedef Derived derived;
+      typedef combiner_base root;
+    };
+  };
+}
 
 }
 

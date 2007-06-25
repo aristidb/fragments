@@ -20,7 +20,6 @@
 #ifndef FRAGMENTS_DETAIL_FIND_FRAGMENT_HPP
 #define FRAGMENTS_DETAIL_FIND_FRAGMENT_HPP
 
-#include <fragments/detail/nada.hpp>
 #include <fragments/detail/iterate_fragments.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/identity.hpp>
@@ -32,7 +31,7 @@ namespace fragments { namespace detail {
   template<
     typename Sequence,
     typename Fragment,
-    typename Before = nada<Sequence>
+    typename Before
   >
   struct find_fragment {
     typedef iterate_fragments<Sequence, Before> it;
