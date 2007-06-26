@@ -126,4 +126,18 @@ namespace detail {
 
 }
 
+/*
+struct my_fragment {
+  typedef boost::mpl::vector0<> concept;
+  typedef boost::mpl::true_ shadow; //das muss ich noch mit ruediger besprechen
+  template<typename Before, typename After>
+  class fragment {
+  public:
+    typedef typename Before::access access; //<-- wichtig!!!
+  private:
+    Before x;
+  };
+};
+*/
+
 #endif
