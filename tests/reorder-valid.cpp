@@ -145,6 +145,18 @@ int main() {
   }
 
   {
+    // order kept as was when not changed according to requirements - #2
+    typedef boost::mpl::vector4<
+        fragmentC, fragment0, fragmentA, fragmentB
+      > seq;
+    typedef boost::mpl::vector4<
+        fragment0, fragmentA, fragmentB, fragmentC
+      > result;
+
+    CHECK(fragments::detail::reorder<seq>::type, result)
+  }
+
+  {
     // empty...
     typedef boost::mpl::vector0< > seq;
     typedef boost::mpl::vector0< > result;
