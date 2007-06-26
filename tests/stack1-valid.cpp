@@ -26,7 +26,7 @@
 int main() {
   typedef fragments::combiner<
       fragments::container::stack,
-      fragemnts::container::type<std::string>
+      fragments::container::type<std::string>
     > stack;
   stack s;
   s.push("Hello, stack!");
