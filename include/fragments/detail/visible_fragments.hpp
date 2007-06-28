@@ -20,6 +20,7 @@
 #ifndef FRAGMENTS_DETAIL_VISIBLE_FRAGMENTS_HPP
 #define FRAGMENTS_DETAIL_VISIBLE_FRAGMENTS_HPP
 
+#include <fragments/detail/create_vector.hpp>
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/deref.hpp>
@@ -70,7 +71,7 @@ struct visible_fragments {
 
 template<typename Seq, typename End>
 struct visible_fragments<Seq, End, End> {
-  typedef Seq type;
+  typedef typename create_vector<Seq>::type type;
 };
 
 }}

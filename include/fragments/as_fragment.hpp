@@ -28,7 +28,7 @@ namespace detail {
   template<typename T, typename H>
   struct as_fragment_t {
     typedef typename find_fragment<
-        typename H::access::fragments,
+        typename H::access::visible_fragments,
         T,
         typename H::access::root
       >::type type;

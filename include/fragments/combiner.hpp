@@ -27,6 +27,7 @@
 #include <fragments/detail/find_fragment.hpp>
 #include <fragments/detail/seq_of_elements.hpp>
 #include <fragments/detail/create_vector.hpp>
+#include <fragments/detail/visible_fragments.hpp>
 #include <boost/mpl/back.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/empty.hpp>
@@ -118,6 +119,7 @@ namespace detail {
   struct combiner_base {
     struct access {
       typedef Seq fragments;
+      typedef typename visible_fragments<Seq>::type visible_fragments;
       typedef Derived derived;
       typedef combiner_base root;
     };
