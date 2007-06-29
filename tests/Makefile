@@ -50,7 +50,7 @@ $(COMPTARGETS): %: %.cpp %.dep
 	 fi
 
 $(DEPS): %.dep: %.cpp
-	@$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.cpp=.o) -o $@
+	@$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.cpp=) -o $@
 
 $(NOCOMPTARGETS): %: %.cpp %.dep
 	@if $(CXX) $(CXXFLAGS) $(LIBS) $< -o $@ 2> /dev/null; then \

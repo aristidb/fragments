@@ -1,5 +1,14 @@
+ifndef PREFIX
 PREFIX := /usr/local
+endif
 export PREFIX
+
+-include VERSION
+ifndef VERSION
+VERSION := 1.0
+endif
+
+INCLUDEDIR := $(PREFIX)/include/fragments-$(VERSION)
 
 CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
 export CXXFLAGS
@@ -18,7 +27,10 @@ examples:
 	$(MAKE) -C examples
 
 install:
-	@echo "TODO" #@cp -r include/fragments $(PREFIX)/include
+# should we use install(1) instead of cp?
+	@echo "Installing Fragments $(VERSION) to $(INCLUDEDIR)"
+	@mkdir -p $(INCLUDEDIR)
+	@cp -r include/fragments $(INCLUDEDIR)
 
 .PHONY: clean tests-clean examples-clean
 clean: tests-clean examples-clean

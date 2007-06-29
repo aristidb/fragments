@@ -35,7 +35,7 @@
 namespace fragments {
 namespace concepts {
   namespace detail {
-    BOOST_MPL_HAS_XXX_TRAIT_DEF(shadow)
+    /*    BOOST_MPL_HAS_XXX_TRAIT_DEF(shadow)
 
     template<typename Concept, bool x = has_shadow<Concept>::value>
     struct is_shadowing
@@ -126,7 +126,7 @@ namespace concepts {
     >
     {
       typedef Sequence type;
-    };
+      };*/
 
     template<typename FragmentSeq,
              bool empty = boost::mpl::empty<FragmentSeq>::value >
@@ -148,9 +148,9 @@ namespace concepts {
   template<typename FragmentSeq>
   struct resulting_concept {
     typedef typename flatten<
-      typename detail::do_shadowing<
+      //      typename detail::do_shadowing<
         typename detail::get_list_of_concepts<FragmentSeq>::type
-        >::type
+        //        >::type
       >::type
     type;
   };

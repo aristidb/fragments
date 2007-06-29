@@ -11,9 +11,9 @@ ifndef LIBS
 LIBS     :=
 endif
 
-SOURCES  := $(wildcard *.$(EXT))
-DEPS     := $(patsubst %.$(EXT), %.dep, $(SOURCES))
-TARGETS  := $(patsubst %.$(EXT), %, $(SOURCES))
+SOURCES  := $(wildcard *.cpp)
+DEPS     := $(patsubst %.cpp, %.dep, $(SOURCES))
+TARGETS  := $(patsubst %.cpp, %, $(SOURCES))
 
 .PHONY: all
 all: $(TARGETS)
@@ -22,11 +22,11 @@ ifneq ($(MAKECMDGOALS), clean)
 -include $(DEPS)
 endif
 
-$(TARGETS): %: %.$(EXT) %.dep
+$(TARGETS): %: %.cpp %.dep
 	$(CXX) $(CXXFLAGS) $(LIBS) $< -o $@
 
-$(DEPS): %.dep: %.$(EXT)
-	$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.$(EXT)=.o) -o $@
+$(DEPS): %.dep: %.cpp
+	$(CXX) $(CXXFLAGS) -MM $< -MT $@ -MT $(<:.cpp=) -o $@
 
 .PHONY: clean
 clean:
