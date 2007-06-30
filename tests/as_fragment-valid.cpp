@@ -26,6 +26,7 @@ struct frag {
     void call_frag() {}
     void call_frag_const() const {}
   };
+  typedef boost::mpl::vector0<> concept;
 };
 
 int main() {

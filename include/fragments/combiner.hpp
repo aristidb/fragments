@@ -21,6 +21,7 @@
 #define FRAGMENTS_COMBINER_HPP
 
 #include <fragments/config.hpp>
+#include <fragments/concepts/resulting_concept.hpp>
 #include <fragments/parameters/fold_wrap.hpp>
 #include <fragments/detail/reorder.hpp>
 #include <fragments/detail/apply_default_fragments.hpp>
@@ -94,6 +95,10 @@ struct combiner
 
   // DIAGNOSIS: topmost fragment fails to propagate "access" definition
   typedef typename base::access access;
+
+  typedef typename concepts::resulting_concept<
+      typename access::visible_fragments
+    >::type concept;
 
   combiner() {}
 
