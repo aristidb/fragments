@@ -1,6 +1,6 @@
 // vim:ts=2:sw=2:expandtab:autoindent:filetype=cpp:
 
-// Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld
+// Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld, Christian Uhrhan
 //
 // Distributed under the Boost Software License, Version 1.0 and under the MIT
 // License.
