@@ -2,15 +2,9 @@
 #
 
 # TODO use colors?
-ifndef CXXFLAGS
-CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
-endif
-ifndef CXX
-CXX      := g++
-endif
-ifndef LIBS
-LIBS     :=
-endif
+CXXFLAGS ?= -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
+CXX      ?= g++
+LIBS     ?=
 
 SOURCES       := $(wildcard *.cpp)
 DEPS          := $(patsubst %.cpp, %.dep, $(SOURCES))

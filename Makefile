@@ -1,12 +1,8 @@
-ifndef PREFIX
-PREFIX := /usr/local
-endif
+PREFIX ?= /usr/local
 export PREFIX
 
 -include VERSION
-ifndef VERSION
-VERSION := 1.0
-endif
+VERSION ?= 1.0
 
 INCLUDEDIR := $(PREFIX)/include/fragments-$(VERSION)
 
