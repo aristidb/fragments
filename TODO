@@ -1,3 +1,1 @@
-* think about shadowing
-* check that has_concept / supports_concept work together with shadowing
-* make sure that as_fragment interoperates with shadowing (a shadowed fragment shall not be accessible, everything else though must)
+
