@@ -24,13 +24,19 @@
 
 namespace fragments {
   template<typename AdaptThis, typename ConceptSeq,
-           typename RequireAfter = boost::mpl::vector0< > >
-  struct adaptor {
+           typename RequireBefore = boost::mpl::vector0< >,
+           typename Require = boost::mpl::vector0< >,
+           typename RequireAfter = boost::mpl::vector0< >,
+           typename Shadow = boost::mpl::false_>
+  struct adapter {
     template<typename Before, typename After>
     struct fragment : Before, AdaptThis { };
 
     typedef ConceptSeq concept;
+    typedef RequireBegore require_before;
+    typedef Require require;
     typedef RequireAfter require_after;
+    typedef Shadow shadow;
   };
 }
 

@@ -33,7 +33,7 @@ namespace fragments { namespace container {
     template<typename Before, typename>
     struct fragment : Before {
       typedef std::vector<typename Before::value_type> Seq;
-      
+
       typedef typename Before::value_type value_type;
       typedef typename Before::reference reference;
       typedef typename Before::const_reference const_reference;
