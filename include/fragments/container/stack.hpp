@@ -45,11 +45,17 @@ namespace fragments { namespace container {
           typedef typename Before::const_reference const_reference;
           // container types
           typedef typename Before::size_type size_type;
+
         private:
           Before sequence;
         public:
-          fragment() {
-          }
+          fragment()
+          {}
+
+          template<typename ArgPack>
+          fragment(ArgPack const &args)
+            : sequence(args)
+          {}
 
           bool empty() const {
             return sequence.empty();

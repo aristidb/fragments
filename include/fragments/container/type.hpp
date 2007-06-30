@@ -36,6 +36,13 @@ struct type {
     typedef T const *const_pointer;
     typedef T &reference;
     typedef T const &const_reference;
+
+    fragment() {}
+
+    template<typename ArgPack>
+    fragment(ArgPack const &args)
+      : Before(args)
+    {}
   };
 };
 
