@@ -45,3 +45,7 @@ tests-dist-clean:
 
 examples-dist-clean:
 	$(MAKE) -C examples dist-clean
+
+.PHONY: dist create-dist-dir
+dist:
+	./make-dist
