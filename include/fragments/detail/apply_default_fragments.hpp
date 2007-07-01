@@ -31,6 +31,9 @@
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/if.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/front.hpp>
+#include <boost/mpl/pop_front.hpp>
 
 #include <boost/static_assert.hpp>
 

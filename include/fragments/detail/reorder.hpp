@@ -40,6 +40,9 @@
 #include <boost/mpl/remove.hpp>
 #include <boost/mpl/transform.hpp>
 #include <boost/mpl/logical.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/front.hpp>
+#include <boost/mpl/pop_front.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 

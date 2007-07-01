@@ -28,6 +28,9 @@
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/and.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/front.hpp>
+#include <boost/mpl/pop_front.hpp>
 
 namespace fragments {
 namespace concepts {

@@ -22,6 +22,9 @@
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/vector.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/front.hpp>
+#include <boost/mpl/pop_front.hpp>
 #include <iostream>
 
 template<typename SeqA,

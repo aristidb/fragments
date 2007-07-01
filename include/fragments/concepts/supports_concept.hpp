@@ -23,23 +23,31 @@
 #include "detail/has_implies.hpp"
 
 #include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/pop_front.hpp>
-#include <boost/mpl/front.hpp>
-#include <boost/mpl/empty.hpp>
+#include <boost/mpl/next_prior.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/logical.hpp>
+#include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/begin.hpp>
+#include <boost/mpl/end.hpp>
+#include <boost/mpl/deref.hpp>
 
 namespace fragments {
 namespace concepts {
 
 namespace detail {
+  template<typename, typename, typename>
+  struct checker2;
+
   template<
     typename Seq,
-    typename Concept,
-    bool empty = boost::mpl::empty<Seq>::value
+    typename Concept
   >
-  struct checker;
+  struct checker {
+    typedef typename checker2<
+        typename boost::mpl::begin<Seq>::type,
+        typename boost::mpl::end<Seq>::type,
+        Concept
+      >::type type;
+  };
 
   template<
     typename Concept,
@@ -58,33 +66,39 @@ namespace detail {
     typedef boost::mpl::false_ type;
   };
 
-  template<typename Seq, typename Concept, bool /*false*/>
-  struct checker {
-    typedef typename boost::mpl::front<Seq>::type checked_concept;
+  template<
+    typename First,
+    typename Last,
+    typename Concept
+  >
+  struct checker2 {
+    typedef typename boost::mpl::deref<First>::type checked_concept;
 
-    typedef typename boost::mpl::pop_front<Seq>::type next;
+    typedef typename boost::mpl::next<First>::type next;
 
-    typedef typename boost::mpl::apply1<
-        boost::mpl::or_<
+    typedef typename boost::mpl::eval_if<
+        boost::mpl::bool_<(
           boost::is_same<
             checked_concept,
-            boost::mpl::_1
-          >,
+            Concept
+          >::type::value
+          ||
           implies_checker<
-            boost::mpl::_1,
+            Concept,
             checked_concept
-          >,
-          checker<
-            next,
-            boost::mpl::_1
-          >
-        >,
-        Concept
+          >::type::value
+        )>,
+        boost::mpl::true_,
+        checker2<
+          next,
+          Last,
+          Concept
+        >
       >::type type;
   };
 
-  template<typename Seq, typename Concept>
-  struct checker<Seq, Concept, true> {
+  template<typename End, typename Concept>
+  struct checker2<End, End, Concept> {
     typedef boost::mpl::false_ type;
   };
 }
