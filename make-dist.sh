@@ -10,7 +10,7 @@
 # * test
 # * getting the documentation really sucks! Check if there is a better way 
 # * auto commit Change-Log (?)
-# * upload on sf.net
+# * upload on sf.net (?)
 #
 
 if [ -e .package-defaults.sh ]; then
@@ -116,6 +116,8 @@ for i; do
             NO_DOC=$?
             echo "$2" | grep "changelog" -
             NO_CHANGE_LOG=$?
+            echo "$?" | grep "delete" -
+            NO_DELETE=$?
             #TODO ...
             shift; shift;;
     esac
@@ -262,7 +264,9 @@ if [ "$NO_DOC" != "0" ]; then
     download_doc
 fi
 create_package
-remove_package_dir
+if[ "$NO_DELETE" != "0" ]; then
+    remove_package_dir
+fi
 
 echo "Done!! [See $PKGFILE]"
 if [ "$NO_CHANGELOG" != "0" ]; then

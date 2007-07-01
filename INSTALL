@@ -1,0 +1,21 @@
+= Fragments' INSTALL =
+Fragments is a "header only" project. You just have to tell your Compiler where to find the fragments Header files. (Please read your Compiler's Manual if you do not know how to achieve this!)
+
+There is a Makefile to run tests, compile the examples and install the header files to your systems include-directory (on Unix-like Systems). The Makefile requires GNU/Make.
+
+== Installation ==
+run
+  make install
+to install the fragment headers into /usr/local/include/fragments-VERSION. Or set $PREFIX to change the install path. e.g.
+  PREFIX=/usr make install
+
+To uninstall fragments simply exchange install with uninstall.
+
+== Running Tests, Compiling Examples ==
+To compile the examples simply run
+  make
+To run the test system simply run
+  make tests
+
+The Makefile is set up to use GCC. You can change that behaviour by setting CXX and CXXFLAGS according to the Compiler of your choice.
+

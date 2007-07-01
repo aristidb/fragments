@@ -25,12 +25,6 @@
 #include <boost/mpl/vector.hpp>
 #include <iostream>
 
-/*
-  TODO
-Problem: equivalent_sequence depends on order. Thus checks depend on the order
-         of the result of flatten!
- */
-
 template<typename SeqA,
          typename SeqB,
          bool emptyA = boost::mpl::empty<SeqA>::value,

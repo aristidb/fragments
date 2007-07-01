@@ -1,10 +1,10 @@
 == Fragments Test-System
 
-We use a fairly simple Makefile based Test-System. The Test-System knows about two kinds of Tests. The first one are all Code-files ending with -valid.cpp. The Test-System expects them to compile without an error and to run and signal if the test was a success with the exit-status (normal unix conventions: 0 => ok, everything else than 0 => failure). The other ones are alle Code-files ending with -invalid.cpp. The Test-System expects them not to compile.
+We use a fairly simple Makefile based Test-System. The Test-System knows about two kinds of Tests. The first one are all Code-files ending with -valid.cpp. The Test-System expects them to compile without an error and to run and signal if the test was a success with its exit-status (normal unix conventions: 0 => ok, everything else => failure). The other ones are alle Code-files ending with -invalid.cpp. The Test-System expects them not to compile.
 
 Tests may not write to stderr or stdout if they succeed! Tests may not expect input and should work completly without user interaction!
 
-(while a -valid.cpp-Test can run several testcases at once, a -invalid.cpp-Test can of course only test one testcase!)
+(while a -valid.cpp-Test can run several testcases at once, a -invalid.cpp-Test can only test one testcase of course!)
 
 Running the Test-System requires GNU/make.
 

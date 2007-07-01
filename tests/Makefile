@@ -1,7 +1,6 @@
 # based on http://www.c-plusplus.de/forum/viewtopic-var-t-is-88418.html
 #
 
-# TODO use colors?
 CXXFLAGS ?= -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
 CXX      ?= g++
 LIBS     ?=

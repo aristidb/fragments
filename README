@@ -1,0 +1,6 @@
+= Fragments' Read Me =
+Fragments is a highly sophisticated C++ library for composing classes from freely definable fragments. Among other things it can be used to create container classes - just by selecting a set of fragments to combine.
+
+see http://fragments.sf.net for more information and newer versions
+see INSTALL for install instructions
+see doc for documentation
