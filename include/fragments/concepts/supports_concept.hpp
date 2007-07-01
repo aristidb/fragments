@@ -22,20 +22,22 @@
 
 #include "detail/has_implies.hpp"
 
-#include <boost/type_traits/integral_constant.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/empty.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/apply.hpp>
+#include <boost/mpl/logical.hpp>
 
 namespace fragments {
 namespace concepts {
 
 namespace detail {
   template<
-    typename FragmentSeq,
+    typename Seq,
     typename Concept,
-    bool empty = boost::mpl::empty<FragmentSeq>::value
+    bool empty = boost::mpl::empty<Seq>::value
   >
   struct checker;
 
@@ -45,44 +47,51 @@ namespace detail {
     bool = has_implies<CheckedConcept>::value
   >
   struct implies_checker {
-    static bool const value = checker<
+    typedef typename checker<
         typename CheckedConcept::implies,
         Concept
-      >::value;
+      >::type type;
   };
 
   template<typename Concept, typename CheckedConcept>
   struct implies_checker<Concept, CheckedConcept, false> {
-    static bool const value = false;
+    typedef boost::mpl::false_ type;
   };
 
-  template<typename FragmentSeq, typename Concept, bool /*false*/>
+  template<typename Seq, typename Concept, bool /*false*/>
   struct checker {
-    typedef typename boost::mpl::front<FragmentSeq>::type checked_concept;
+    typedef typename boost::mpl::front<Seq>::type checked_concept;
 
-    static bool const value =
-      boost::is_same<checked_concept, Concept>::value ?
-      true :
-      ( implies_checker<Concept, checked_concept>::value ?
-        true :
-        checker<
-          typename boost::mpl::pop_front<FragmentSeq>::type,
-          Concept
-        >::value);
+    typedef typename boost::mpl::pop_front<Seq>::type next;
+
+    typedef typename boost::mpl::apply1<
+        boost::mpl::or_<
+          boost::is_same<
+            checked_concept,
+            boost::mpl::_1
+          >,
+          implies_checker<
+            boost::mpl::_1,
+            checked_concept
+          >,
+          checker<
+            next,
+            boost::mpl::_1
+          >
+        >,
+        Concept
+      >::type type;
   };
 
-  template<typename FragmentSeq, typename Concept>
-  struct checker<FragmentSeq, Concept, true> {
-    static bool const value = false;
+  template<typename Seq, typename Concept>
+  struct checker<Seq, Concept, true> {
+    typedef boost::mpl::false_ type;
   };
 }
 
 template<typename FragmentClass, typename Concept>
 struct supports_concept
-  : boost::integral_constant<
-      bool,
-      detail::checker<typename FragmentClass::concept, Concept>::value
-    > 
+  : detail::checker<typename FragmentClass::concept, Concept>::type
 { };
 
 }}
