@@ -105,7 +105,11 @@ namespace detail {
 
 template<typename FragmentClass, typename Concept>
 struct supports_concept
-  : detail::checker<typename FragmentClass::concept, Concept>::type
+  : boost::mpl::eval_if<
+      boost::is_same<FragmentClass, Concept>,
+      boost::mpl::true_,
+      detail::checker<typename FragmentClass::concept, Concept>
+    >::type
 { };
 
 }}
