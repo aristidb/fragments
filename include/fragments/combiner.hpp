@@ -21,6 +21,7 @@
 #define FRAGMENTS_COMBINER_HPP
 
 #include <fragments/config.hpp>
+#include <fragments/concepts/check_concepts.hpp>
 #include <fragments/concepts/resulting_concept.hpp>
 #include <fragments/parameters/fold_wrap.hpp>
 #include <fragments/detail/reorder.hpp>
@@ -124,6 +125,10 @@ namespace detail {
   struct combiner_base {
     struct access {
       typedef Seq fragments;
+
+      // DIAGNOSIS: missing / misplaced fragment / concept
+      BOOST_STATIC_ASSERT((concepts::check_concepts<fragments>::value));
+
       typedef typename visible_fragments<Seq>::type visible_fragments;
       typedef Derived derived;
       typedef combiner_base root;
