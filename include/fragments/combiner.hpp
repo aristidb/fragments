@@ -57,6 +57,9 @@ namespace detail {
 
     typedef typename create_vector<ordered_sequence>::type sequence;
 
+    // DIAGNOSIS: missing / misplaced fragment / concept
+    BOOST_STATIC_ASSERT((concepts::check_concepts<sequence>::value));
+
     typedef typename boost::mpl::back<sequence>::type back;
 
   public:
@@ -125,9 +128,6 @@ namespace detail {
   struct combiner_base {
     struct access {
       typedef Seq fragments;
-
-      // DIAGNOSIS: missing / misplaced fragment / concept
-      BOOST_STATIC_ASSERT((concepts::check_concepts<fragments>::value));
 
       typedef typename visible_fragments<Seq>::type visible_fragments;
       typedef Derived derived;
