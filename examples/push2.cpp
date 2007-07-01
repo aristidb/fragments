@@ -22,6 +22,7 @@
 #include <fragments/container/stack.hpp>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 struct push2 {
   typedef boost::mpl::vector0<> concept;
@@ -31,8 +32,10 @@ struct push2 {
   template<typename Before, typename After>
   struct fragment : Before {
     void push(typename Before::const_reference x) {
+      std::cout << "_Z1P" << typeid(Before).name() << std::endl;
+      std::cout << "_Z1A" << typeid(After).name() << std::endl;
       Before::push(x);
-      Before::push(x);
+      Before::push(x+x);
     }
   };
 };
@@ -41,9 +44,12 @@ int main() {
   typedef fragments::combiner<
       fragments::container::stack,
       fragments::container::type<std::string>,
+      push2,
       push2
     > stack;
   stack s;
+  std::cout << "_Z1x" << typeid(stack::access::fragments).name() << std::endl;
+  std::cout << "_Z1y" << typeid(stack::base).name() << std::endl;
   s.push("Hello, stack!");
   std::cout << s.top() << std::endl;
   std::cout << s.size() << std::endl;

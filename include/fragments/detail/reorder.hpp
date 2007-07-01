@@ -43,6 +43,8 @@
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/pop_front.hpp>
+#include <boost/mpl/find.hpp>
+#include <boost/mpl/erase.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/static_assert.hpp>
 
@@ -414,9 +416,12 @@ namespace fragments { namespace detail {
         >::type next_graph;
       typedef typename reorder<
           FragmentSeq,
-          typename boost::mpl::remove<
+          typename boost::mpl::erase<
             Fragments,
-            N
+            typename boost::mpl::find<
+              Fragments,
+              N
+            >::type
           >::type,
           next_graph,
           next
