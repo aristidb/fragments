@@ -34,7 +34,7 @@ namespace {
   struct conceptA { };
 
   struct fragmentA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
@@ -43,14 +43,14 @@ namespace {
   struct conceptB { };
 
   struct fragmentB {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptB> concept;
   };
 
   struct fragmentN {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector0< > concept;
@@ -63,7 +63,7 @@ namespace {
   };
 
   struct fragmentiA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptiA> concept;

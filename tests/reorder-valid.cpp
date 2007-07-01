@@ -77,7 +77,7 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
   struct conceptC { };
 
   struct fragmentA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
@@ -86,7 +86,7 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
   };
 
   struct fragmentB {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptB> concept;
@@ -96,7 +96,7 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
   };
 
   struct fragmentC {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptC> concept;
@@ -106,14 +106,14 @@ struct equivalent_sequence<SeqA, SeqB, true, x>
   };
 
   struct fragment0 {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before { };
     
     typedef boost::mpl::vector0< > concept;
   };
 
   struct fragmentA2 {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;

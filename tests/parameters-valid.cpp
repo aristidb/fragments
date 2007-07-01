@@ -30,7 +30,7 @@ FRAGMENTS_PARAMETERS_KEY(k1)
 struct frag {
   typedef boost::mpl::vector0<> concept;
 
-  template<typename Before, typename>
+  template<typename Before>
   struct fragment : Before {
     template<typename Pack>
     fragment(Pack const &p) {

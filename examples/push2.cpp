@@ -29,11 +29,10 @@ struct push2 {
 
   typedef boost::mpl::vector1<fragments::container::stack> require_before;
 
-  template<typename Before, typename After>
+  template<typename Before>
   struct fragment : Before {
     void push(typename Before::const_reference x) {
       std::cout << "_Z1P" << typeid(Before).name() << std::endl;
-      std::cout << "_Z1A" << typeid(After).name() << std::endl;
       Before::push(x);
       Before::push(x+x);
     }

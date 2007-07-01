@@ -29,7 +29,7 @@ namespace fragments {
            typename RequireAfter = boost::mpl::vector0< >,
            typename Shadow = boost::mpl::false_>
   struct adapter {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : Before, AdaptThis { };
 
     typedef ConceptSeq concept;

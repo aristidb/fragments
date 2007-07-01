@@ -30,7 +30,7 @@ namespace fragments { namespace container {
     typedef boost::mpl::vector1<concepts::container> concept;
     typedef boost::mpl::vector1<concepts::type_provider> require_before;
 
-    template<typename Before, typename>
+    template<typename Before>
     struct fragment : Before {
       typedef std::vector<typename Before::value_type> Seq;
 

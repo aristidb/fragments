@@ -29,7 +29,7 @@ template<unsigned x>
 struct f1 {
   typedef boost::mpl::vector1<c> concept;
 
-  template<typename Before, typename>
+  template<typename Before>
   struct fragment : Before {
     void action() {
       n |= x;
@@ -39,7 +39,7 @@ struct f1 {
 
 struct f2 {
   typedef boost::mpl::vector0<> concept;
-  template<typename Before, typename>
+  template<typename Before>
   struct fragment : Before {};
 };
 

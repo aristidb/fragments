@@ -36,7 +36,7 @@ namespace fragments { namespace container {
           boost::mpl::pair<concepts::container, vector>
         > default_fragment;
 
-      template<typename Before, typename>
+      template<typename Before>
       struct fragment {
           typedef typename Before::access access;
           // type_provider types

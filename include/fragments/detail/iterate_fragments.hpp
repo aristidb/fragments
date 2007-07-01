@@ -29,10 +29,8 @@ namespace fragments { namespace detail {
   struct iterate_fragments {
     typedef Sequence sequence;
     typedef typename boost::mpl::front<sequence>::type first;
-
-    typedef typename boost::mpl::pop_front<sequence>::type next_sequence_raw;
-    typedef typename create_vector<next_sequence_raw>::type next_sequence;
-    typedef typename first::template fragment<Before, next_sequence> second;
+    typedef typename boost::mpl::pop_front<sequence>::type next_sequence;
+    typedef typename first::template fragment<Before> second;
   };
 }}
 

@@ -79,49 +79,49 @@ namespace {
   struct conceptC { };
 
   struct fragmentA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptA> concept;
   };
 
   struct fragmentAiA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector2<conceptA, conceptiA> concept;
   };
 
   struct fragmentiA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptiA> concept;
   };
 
   struct fragmentiAiA {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptiAiA> concept;
   };
 
   struct fragmentB {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptB> concept;
   };
 
   struct fragmentC {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
 
     typedef boost::mpl::vector1<conceptC> concept;
   };
 
   struct fragment0 {
-    template<typename Before, typename After>
+    template<typename Before>
     struct fragment : public Before { };
     
     typedef boost::mpl::vector0< > concept;

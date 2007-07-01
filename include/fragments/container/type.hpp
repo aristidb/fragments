@@ -29,7 +29,7 @@ template<typename T>
 struct type {
   typedef boost::mpl::vector1<concepts::type_provider> concept;
 
-  template<typename Before, typename After>
+  template<typename Before>
   struct fragment : public Before {
     typedef T value_type;
     typedef T *pointer;

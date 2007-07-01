@@ -21,7 +21,7 @@
 #include <fragments/as_fragment.hpp>
 
 struct frag {
-  template<typename Before, typename>
+  template<typename Before>
   struct fragment : Before {
     void call_frag() {}
     void call_frag_const() const {}
