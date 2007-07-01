@@ -26,7 +26,6 @@
 #include <fragments/parameters/fold_wrap.hpp>
 #include <fragments/detail/reorder.hpp>
 #include <fragments/detail/apply_default_fragments.hpp>
-#include <fragments/detail/find_fragment.hpp>
 #include <fragments/detail/seq_of_elements.hpp>
 #include <fragments/detail/create_vector.hpp>
 #include <fragments/detail/visible_fragments.hpp>
@@ -41,6 +40,29 @@ namespace fragments {
 namespace detail {
   template<typename Seq, typename Derived>
   struct combiner_base;
+
+  template<
+    typename First,
+    typename Last,
+    typename Result
+  >
+  struct nested_base {
+    typedef typename boost::mpl::deref<First>::type deref;
+    typedef typename deref::template fragment<Result> fragment;
+    typedef typename nested_base<
+        typename boost::mpl::next<First>::type,
+        Last,
+        fragment
+      >::type type;
+  };
+
+  template<
+    typename End,
+    typename Result
+  >
+  struct nested_base<End, End, Result> {
+    typedef Result type;
+  };
 
   template<typename SeqSeq, typename Derived>
   class combine {
@@ -60,12 +82,10 @@ namespace detail {
     // DIAGNOSIS: missing / misplaced fragment / concept
     BOOST_STATIC_ASSERT((concepts::check_concepts<sequence>::value));
 
-    typedef typename boost::mpl::back<sequence>::type back;
-
   public:
-    typedef typename find_fragment<
-        sequence,
-        back,
+    typedef typename nested_base<
+        typename boost::mpl::begin<sequence>::type,
+        typename boost::mpl::end<sequence>::type,
         combiner_base<sequence, Derived>
       >::type type;
   };
@@ -137,19 +157,5 @@ namespace detail {
 }
 
 }
-
-/*
-struct my_fragment {
-  typedef boost::mpl::vector0<> concept;
-  typedef boost::mpl::true_ shadow; //das muss ich noch mit ruediger besprechen
-  template<typename Before>
-  class fragment {
-  public:
-    typedef typename Before::access access; //<-- wichtig!!!
-  private:
-    Before x;
-  };
-};
-*/
 
 #endif

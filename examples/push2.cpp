@@ -32,7 +32,6 @@ struct push2 {
   template<typename Before>
   struct fragment : Before {
     void push(typename Before::const_reference x) {
-      std::cout << "_Z1P" << typeid(Before).name() << std::endl;
       Before::push(x);
       Before::push(x+x);
     }
@@ -47,11 +46,10 @@ int main() {
       push2
     > stack;
   stack s;
-  std::cout << "_Z1x" << typeid(stack::access::fragments).name() << std::endl;
-  std::cout << "_Z1y" << typeid(stack::base).name() << std::endl;
-  s.push("Hello, stack!");
-  std::cout << s.top() << std::endl;
-  std::cout << s.size() << std::endl;
-  s.pop();
-  std::cout << (s.empty() ? "=> empty" : "=> non-empty") << std::endl;
+  s.push("Hello, stack! ");
+  while (!s.empty()) {
+    std::cout << s.top() << std::endl;
+    s.pop();
+  }
+  std::cout << "---" << std::endl;
 }
