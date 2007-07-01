@@ -1,3 +1,5 @@
+// vim:ts=2:sw=2:expandtab:autoindent:filetype=cpp:
+
 // Copyright (c) 2007 Aristid Breitkreuz, Ruediger Sonderfeld, Christian Uhrhan
 //
 // Distributed under the Boost Software License, Version 1.0 and under the MIT
@@ -35,7 +37,7 @@ namespace detail {
     typename Requirements,
     typename Sequence,
     bool empty = boost::mpl::empty<Requirements>::value
-    >
+  >
   struct check_requirements
     : boost::mpl::and_<
     typename has_concept<
@@ -52,7 +54,7 @@ namespace detail {
   template<
     typename Requirements,
     typename Sequence
-    >
+  >
   struct check_requirements<Requirements, Sequence, true>
     : boost::mpl::true_ { };
 
@@ -87,53 +89,67 @@ struct check_requirements_before {
 };
 }
 
-template<typename Sequence,
-         typename Iterator = typename boost::mpl::begin<Sequence>::type>
+template<
+  typename Sequence,
+  typename Iterator = typename boost::mpl::begin<Sequence>::type
+>
 struct check_concepts;
 
 namespace detail {
   template<typename Sequence, typename Iterator>
   struct check_concepts_impl
   {
-    typedef
-    boost::mpl::and_<
-      check_concepts<
-        Sequence,
-        typename boost::mpl::next<Iterator>::type
+    typedef boost::mpl::and_<
+        check_concepts<
+          Sequence,
+          typename boost::mpl::next<Iterator>::type
         >,
-          boost::mpl::eval_if<
-            detail::has_require<
-              typename boost::mpl::deref<Iterator>::type
-              >,
-                detail::check_requirements_all<Sequence, Iterator>,
-                boost::mpl::true_
-                >,
-      boost::mpl::eval_if<
-        detail::has_require_before<
-          typename boost::mpl::deref<Iterator>::type
+        boost::mpl::eval_if<
+          detail::has_require<
+            typename boost::mpl::deref<Iterator>::type
           >,
-            detail::check_requirements_before<Sequence, Iterator>,
-            boost::mpl::true_
-            >,
-              boost::mpl::eval_if<
-                detail::has_require_after<
-                  typename boost::mpl::deref<Iterator>::type
-                  >,
-                detail::check_requirements_after<Sequence, Iterator>,
-                boost::mpl::true_
-                >
-    >
-    type;
+          detail::check_requirements_all<
+            Sequence,
+            Iterator
+          >,
+          boost::mpl::true_
+        >,
+        boost::mpl::eval_if<
+          detail::has_require_before<
+            typename boost::mpl::deref<Iterator>::type
+          >,
+          detail::check_requirements_before<
+            Sequence,
+            Iterator
+          >,
+          boost::mpl::true_
+        >,
+        boost::mpl::eval_if<
+          detail::has_require_after<
+            typename boost::mpl::deref<Iterator>::type
+          >,
+          detail::check_requirements_after<
+            Sequence,
+            Iterator
+          >,
+          boost::mpl::true_
+        >
+      > type;
 };
 }
 
-template<typename Sequence,
-         typename Iterator>
+template<
+  typename Sequence,
+  typename Iterator
+>
 struct check_concepts
   : boost::mpl::eval_if<
-  boost::is_same<Iterator, typename boost::mpl::end<Sequence>::type>,
-  boost::mpl::true_,
-  detail::check_concepts_impl<Sequence, Iterator>
+      boost::is_same<
+        Iterator,
+        typename boost::mpl::end<Sequence>::type
+      >,
+      boost::mpl::true_,
+      detail::check_concepts_impl<Sequence, Iterator>
   >::type
 { };
 
