@@ -40,14 +40,14 @@ namespace detail {
   >
   struct check_requirements
     : boost::mpl::and_<
-    typename has_concept<
-      Sequence,
-      typename boost::mpl::front<Requirements>::type
-      >::type,
-    typename check_requirements<
-      typename boost::mpl::pop_front<Requirements>::type,
-      Sequence
-      >::type
+        typename has_concept<
+          Sequence,
+          typename boost::mpl::front<Requirements>::type
+        >::type,
+        typename check_requirements<
+          typename boost::mpl::pop_front<Requirements>::type,
+          Sequence
+        >::type
       >
   { };
     
@@ -56,14 +56,15 @@ namespace detail {
     typename Sequence
   >
   struct check_requirements<Requirements, Sequence, true>
-    : boost::mpl::true_ { };
+    : boost::mpl::true_
+  { };
 
   template<typename Sequence, typename Iterator>
   struct check_requirements_all {
     typedef typename detail::check_requirements<
       typename boost::mpl::deref<Iterator>::type::require,
       Sequence
-      >::type type;
+    >::type type;
 };
 
 template<typename Sequence, typename Iterator>
@@ -73,8 +74,8 @@ struct check_requirements_before {
     boost::mpl::iterator_range<
       typename boost::mpl::begin<Sequence>::type,
       Iterator
-      >
-    >::type type;
+    >
+  >::type type;
 };
 
   template<typename Sequence, typename Iterator>
@@ -84,7 +85,7 @@ struct check_requirements_before {
       boost::mpl::iterator_range<
         typename boost::mpl::next<Iterator>::type,
         typename boost::mpl::end<Sequence>::type
-        >
+      >
     >::type type;
 };
 }
@@ -103,38 +104,30 @@ namespace detail {
         check_concepts<
           Sequence,
           typename boost::mpl::next<Iterator>::type
+      >,
+      boost::mpl::eval_if<
+        detail::has_require<
+          typename boost::mpl::deref<Iterator>::type
         >,
-        boost::mpl::eval_if<
-          detail::has_require<
-            typename boost::mpl::deref<Iterator>::type
-          >,
-          detail::check_requirements_all<
-            Sequence,
-            Iterator
-          >,
-          boost::mpl::true_
+        detail::check_requirements_all<Sequence, Iterator>,
+        boost::mpl::true_
+      >,
+      boost::mpl::eval_if<
+        detail::has_require_before<
+          typename boost::mpl::deref<Iterator>::type
         >,
-        boost::mpl::eval_if<
-          detail::has_require_before<
-            typename boost::mpl::deref<Iterator>::type
-          >,
-          detail::check_requirements_before<
-            Sequence,
-            Iterator
-          >,
-          boost::mpl::true_
+        detail::check_requirements_before<Sequence, Iterator>,
+        boost::mpl::true_
+      >,
+      boost::mpl::eval_if<
+        detail::has_require_after<
+          typename boost::mpl::deref<Iterator>::type
         >,
-        boost::mpl::eval_if<
-          detail::has_require_after<
-            typename boost::mpl::deref<Iterator>::type
-          >,
-          detail::check_requirements_after<
-            Sequence,
-            Iterator
-          >,
-          boost::mpl::true_
-        >
-      > type;
+        detail::check_requirements_after<Sequence, Iterator>,
+        boost::mpl::true_
+      >
+    >
+    type;
 };
 }
 
