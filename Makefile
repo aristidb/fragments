@@ -13,7 +13,7 @@ export CXX
 LIBS     :=
 export LIBS
 
-.PHONY: all tests examples install
+.PHONY: all tests examples install uninstall
 all: examples
 
 tests:
@@ -27,6 +27,10 @@ install:
 	@echo "Installing Fragments $(VERSION) to $(INCLUDEDIR)"
 	@mkdir -p $(INCLUDEDIR)
 	@cp -r include/fragments $(INCLUDEDIR)
+
+uninstall:
+	@echo "Uninstalling Fragments $(VERSION) from $(INCLUDEDIR)"
+	@rm -rf $(INCLUDEDIR)
 
 .PHONY: clean tests-clean examples-clean
 clean: tests-clean examples-clean
@@ -48,4 +52,4 @@ examples-dist-clean:
 
 .PHONY: dist create-dist-dir
 dist:
-	./make-dist
+	./make-dist.sh

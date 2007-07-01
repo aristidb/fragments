@@ -265,6 +265,6 @@ create_package
 remove_package_dir
 
 echo "Done!! [See $PKGFILE]"
-if [ "$NO_CHANGELOG" != "0"]; then
+if [ "$NO_CHANGELOG" != "0" ]; then
     echo -e "\tYou should commit the updated Change Log!"
 fi
