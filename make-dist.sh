@@ -14,7 +14,7 @@
 #
 
 if [ -e .package-defaults.sh ]; then
-. .package-defaults.sh
+   . ./.package-defaults.sh
 fi
 
 if [ -z "$COOKIES" ]; then
@@ -32,7 +32,7 @@ if [ -z "$TMPDIR" ]; then
 fi
 
 if [ -e VERSION ]; then
-. VERSION
+    . ./VERSION
 fi
 
 help () {
