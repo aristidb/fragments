@@ -12,8 +12,13 @@ TARGETS  := $(patsubst %.cpp, %, $(SOURCES))
 .PHONY: all
 all: $(TARGETS)
 
-ifneq ($(MAKECMDGOALS), clean)
+# argl! GNU/Make does not support boolean algebra
+# thus a hack like this is required to avoid including deps in clean, dist-clean
+ifeq ($(MAKECMDGOALS), clean)
+else
+ifneq ($(MAKECMDGOALS), dist-clean)
 -include $(DEPS)
+endif
 endif
 
 $(TARGETS): %: %.cpp %.dep

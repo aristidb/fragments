@@ -50,6 +50,10 @@ tests-dist-clean:
 examples-dist-clean:
 	$(MAKE) -C examples dist-clean
 
-.PHONY: dist create-dist-dir
+.PHONY: dist
 dist:
-	./make-dist.sh
+	@if [ -e make-dist.sh ]; then ./make-dist.sh; fi
+
+.PHONY: help
+help:
+	@cat INSTALL

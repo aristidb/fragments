@@ -24,8 +24,13 @@ test: start $(NOCOMPTARGETS) $(COMPTARGETS)
 start:
 	@echo "Running Tests:"
 
-ifneq ($(MAKECMDGOALS), clean)
+# argl! GNU/Make does not support boolean algebra
+# thus a hack like this is required to avoid including deps in clean, dist-clean
+ifeq ($(MAKECMDGOALS), clean)
+else
+ifneq ($(MAKECMDGOALS), dist-clean)
 -include $(DEPS)
+endif
 endif
 
 $(COMPTARGETS): %: %.cpp %.dep
