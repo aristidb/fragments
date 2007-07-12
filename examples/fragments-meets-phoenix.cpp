@@ -1,3 +1,5 @@
+#include <climits>
+
 #include <fragments/combiner.hpp>
 using namespace fragments;
 
@@ -13,7 +15,9 @@ namespace fragment {
   namespace concept {
     struct functor { };
 
-    struct functor_1 { typedef boost::mpl::vector1<functor> implies; };
+    struct functor_1 {
+      typedef boost::mpl::vector1<functor> implies;
+    };
   }
 
   struct printer {
@@ -34,7 +38,32 @@ namespace fragment {
   };
 
   namespace concept {
-    struct iterate { };
+    struct iterate {
+      typedef boost::mpl::vector1<functor> implies;
+    };
+  }
+
+  namespace {
+    template<typename T>
+    struct is_void {
+      static bool const value = false;
+    };
+
+    template<>
+    struct is_void<void> {
+      static bool const value = true;
+    };
+
+    template<typename Vector,
+             bool empty = boost::mpl::empty<Vector>::value>
+    struct last {
+      typedef typename boost::mpl::back<Vector>::type type;
+    };
+
+    template<typename Vector>
+    struct last<Vector, true> {
+      typedef boost::mpl::void_ type;
+    };
   }
 
   struct for_each {
@@ -58,15 +87,13 @@ namespace fragment {
 }
 
 int main() {
-
   std::vector<int> foo;
   for(int i = 0; i < 10; ++i) {
     foo.push_back(i);
   }
-
+  
   typedef combiner<fragment::for_each, fragment::printer> print_each_impl;
   function<print_each_impl> const print_each = print_each_impl();
-
   std::vector<int>::const_iterator begin = foo.begin();
   std::vector<int>::const_iterator end = foo.end();
   print_each(arg1, arg2)(begin, end);
