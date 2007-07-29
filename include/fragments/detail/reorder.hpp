@@ -461,13 +461,6 @@ namespace fragments { namespace detail {
   */
   template<typename FragmentSeq>
   struct reorder {
-    typedef typename boost::mpl::copy<
-        FragmentSeq,
-        boost::mpl::inserter<
-          boost::mpl::set0<>,
-          boost::mpl::insert<boost::mpl::_1, boost::mpl::_2>
-        >
-      >::type fragments;
     typedef typename reorder_detail::order_graph<FragmentSeq>::type graph;
     typedef typename reorder_detail::reorder<
         FragmentSeq,
