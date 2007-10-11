@@ -89,6 +89,19 @@ namespace detail {
         combiner_base<sequence, Derived>
       >::type type;
   };
+
+  template<typename Seq, typename Self>
+  struct combiner_impl : combine<Seq, Self>::type {
+    typedef typename combine<Seq, Self>::type base;
+
+    // DIAGNOSIS: topmost fragment fails to propagate "access" definition
+    typedef typename base::access access;
+
+    combiner_impl() {}
+
+    template<typename Pack>
+    combiner_impl(Pack const &pack) : base(pack) {}
+  };
 }
 
 template<
@@ -99,28 +112,26 @@ template<
   )
 >
 struct combiner
-  : detail::combine<
-      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
-        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-      >,
-      combiner<
-        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+  : detail::combiner_impl<
+         BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
+           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+         >,
+         combiner<
+           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+         >
       >
-    >::type
 {
-  typedef typename detail::combine<
-      BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
-        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-      >,
-      combiner<
-        BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-      >
-    >::type base;
-
-  // DIAGNOSIS: topmost fragment fails to propagate "access" definition
-  typedef typename base::access access;
-
   combiner() {}
+
+  typedef detail::combiner_impl<
+         BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
+           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+         >,
+         combiner<
+           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
+         >
+      >
+      base;
 
 #define FRAGMENTS_COMBINER_CONSTRUCTOR(z, n, t) \
   template<BOOST_PP_ENUM_PARAMS(n, typename T)> \
