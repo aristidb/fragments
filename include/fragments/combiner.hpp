@@ -120,10 +120,6 @@ struct combiner
   // DIAGNOSIS: topmost fragment fails to propagate "access" definition
   typedef typename base::access access;
 
-  typedef typename concepts::resulting_concept<
-      typename access::visible_fragments
-    >::type concept;
-
   combiner() {}
 
 #define FRAGMENTS_COMBINER_CONSTRUCTOR(z, n, t) \
@@ -149,9 +145,16 @@ namespace detail {
     struct access {
       typedef Seq fragments;
 
-      typedef typename visible_fragments<Seq>::type visible_fragments;
+      typedef
+        typename visible_fragments<Seq>::type
+        visible_fragments;
+
       typedef Derived derived;
       typedef combiner_base root;
+
+      typedef
+        typename concepts::resulting_concept<visible_fragments>::type
+        concept;
     };
   };
 }
