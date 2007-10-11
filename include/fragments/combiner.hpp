@@ -104,51 +104,73 @@ namespace detail {
   };
 }
 
-template<
-  BOOST_PP_ENUM_BINARY_PARAMS(
-    FRAGMENTS_LIMIT,
-    typename F,
-    = boost::mpl::vector0<> BOOST_PP_INTERCEPT
-  )
->
-struct combiner
-  : detail::combiner_impl<
-         BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
-           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-         >,
-         combiner<
-           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-         >
-      >
-{
-  combiner() {}
-
-  typedef detail::combiner_impl<
-         BOOST_PP_CAT(boost::mpl::vector, FRAGMENTS_LIMIT)<
-           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-         >,
-         combiner<
-           BOOST_PP_ENUM_PARAMS(FRAGMENTS_LIMIT, F)
-         >
-      >
-      base;
-
-#define FRAGMENTS_COMBINER_CONSTRUCTOR(z, n, t) \
+#define FRAGMENTS_COMBINER_CONSTRUCTOR(z, n, combiner) \
   template<BOOST_PP_ENUM_PARAMS(n, typename T)> \
   combiner(BOOST_PP_ENUM_BINARY_PARAMS(n, T, const &x)) \
     : base(parameters::fold_wrap(BOOST_PP_ENUM_PARAMS(n, x))) \
   {} \
   /**/
 
-  BOOST_PP_REPEAT_FROM_TO(
-    1,
-    BOOST_PP_INC(FRAGMENTS_LIMIT),
-    FRAGMENTS_COMBINER_CONSTRUCTOR,
-    ~
-  )
+#define FRAGMENTS_COMBINER_DEFINITION(combiner, limit_, default_, text_m) \
+  template<BOOST_PP_ENUM_BINARY_PARAMS(limit_, typename F, default_)> \
+  struct combiner \
+    : detail::combiner_impl< \
+         BOOST_PP_CAT(boost::mpl::vector, limit_)< \
+           BOOST_PP_ENUM_PARAMS(limit_, F) \
+         >, \
+         combiner< \
+           BOOST_PP_ENUM_PARAMS(limit_, F) \
+         > \
+      > \
+  { \
+    combiner() {} \
+    typedef detail::combiner_impl< \
+           BOOST_PP_CAT(boost::mpl::vector, limit_)< \
+             BOOST_PP_ENUM_PARAMS(limit_, F) \
+           >, \
+           combiner< \
+             BOOST_PP_ENUM_PARAMS(limit_, F) \
+           > \
+        > \
+        base; \
+    BOOST_PP_REPEAT_FROM_TO( \
+      1, \
+      BOOST_PP_INC(FRAGMENTS_LIMIT), \
+      FRAGMENTS_COMBINER_CONSTRUCTOR, \
+      combiner \
+    ) \
+    text_m() \
+  }; \
+  /**/
 
-#undef FRAGMENTS_COMBINER_CONSTRUCTOR
-};
+
+#define FRAGMENTS_COMBINERN_DEFINITION_(z, n, tuple) \
+  FRAGMENTS_COMBINER_DEFINITION( \
+    BOOST_PP_CAT(BOOST_PP_TUPLE_ELEM(2, 0, tuple), n), \
+    n, \
+    BOOST_PP_INTERCEPT, \
+    BOOST_PP_TUPLE_ELEM(2, 1, tuple) \
+  ) \
+  /**/
+
+#define FRAGMENTS_COMBINER(name, text_m) \
+  FRAGMENTS_COMBINER_DEFINITION( \
+    combiner, \
+    FRAGMENTS_LIMIT, \
+    = boost::mpl::vector0<> BOOST_PP_INTERCEPT, \
+    text_m \
+  ) \
+  BOOST_PP_REPEAT_FROM_TO( \
+    1, \
+    BOOST_PP_INC(FRAGMENTS_LIMIT), \
+    FRAGMENTS_COMBINERN_DEFINITION_, \
+    (combiner, text_m) \
+  ) \
+  /**/
+
+#define FRAGMENTS_EMPTY()
+FRAGMENTS_COMBINER(combiner, FRAGMENTS_EMPTY)
+#undef FRAGMENTS_EMPTY
 
 namespace detail {
   template<typename Seq, typename Derived>

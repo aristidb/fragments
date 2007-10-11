@@ -24,7 +24,7 @@
 #include <string>
 
 int main() {
-  typedef fragments::combiner<
+  typedef fragments::combiner2<
       fragments::container::stack,
       fragments::container::type<std::string>
     > stack;
