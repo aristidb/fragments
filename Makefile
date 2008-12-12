@@ -6,7 +6,9 @@ VERSION ?= 1.0
 
 INCLUDEDIR := $(PREFIX)/include/fragments-$(VERSION)
 
-CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include
+BOOSTDIR = /usr/local/include/boost-1_37
+
+CXXFLAGS := -g -W -Wall -Wno-long-long -pedantic -std=c++98 -I../include -I$(BOOSTDIR)
 export CXXFLAGS
 CXX      := g++
 export CXX
