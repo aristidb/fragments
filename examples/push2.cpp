@@ -22,7 +22,6 @@
 #include <fragments/container/stack.hpp>
 #include <iostream>
 #include <string>
-#include <typeinfo>
 
 struct push2 {
   typedef boost::mpl::vector0<> concept;
