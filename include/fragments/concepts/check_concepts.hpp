@@ -68,18 +68,18 @@ namespace detail {
       typename boost::mpl::deref<Iterator>::type::require,
       Sequence
     >::type type;
-};
+  };
 
-template<typename Sequence, typename Iterator>
-struct check_requirements_before {
-  typedef typename detail::check_requirements<
-    typename boost::mpl::deref<Iterator>::type::require_before,
-    boost::mpl::iterator_range<
-      typename boost::mpl::begin<Sequence>::type,
-      Iterator
-    >
-  >::type type;
-};
+  template<typename Sequence, typename Iterator>
+  struct check_requirements_before {
+    typedef typename detail::check_requirements<
+      typename boost::mpl::deref<Iterator>::type::require_before,
+      boost::mpl::iterator_range<
+        typename boost::mpl::begin<Sequence>::type,
+        Iterator
+      >
+    >::type type;
+  };
 
   template<typename Sequence, typename Iterator>
   struct check_requirements_after {
