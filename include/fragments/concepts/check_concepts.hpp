@@ -104,9 +104,9 @@ namespace detail {
   struct check_concepts_impl
   {
     typedef boost::mpl::and_<
-        check_concepts<
-          Sequence,
-          typename boost::mpl::next<Iterator>::type
+      check_concepts<
+        Sequence,
+        typename boost::mpl::next<Iterator>::type
       >,
       boost::mpl::eval_if<
         detail::has_require<
